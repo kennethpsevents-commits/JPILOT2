@@ -1,0 +1,48 @@
+meta:
+  country: NL
+  last_updated: 2025-01-29
+  ttl_days: 30
+  disclaimer: "Algemene informatie, geen juridisch advies. Raadpleeg altijd een arbeidsrechtadvocaat voor specifieke situaties."
+
+employment:
+  contract_types:
+    - "Onbepaalde tijd"
+    - "Bepaalde tijd (max 3 jaar)"
+    - "Uitzendcontract"
+    - "Freelance/ZZP"
+  notice_periods:
+    standard: "1 maand"
+    probation: "2 weken (max 2 maanden)"
+    senior: "2 maanden (na 5 jaar dienstverband)"
+  vacation_days: "Minimaal 20 dagen wettelijk, vaak 25-30 dagen"
+  sick_leave: "Loondoorbetaling tot 104 weken, minimaal 70%"
+  working_hours: "Maximaal 9 uur per dag, 45 uur per week"
+  overtime: "Verplichte compensatie of uitbetaling"
+  termination:
+    - "Redelijke grond vereist na proeftijd"
+    - "Transitievergoeding vanaf 24 maanden dienstverband"
+    - "Kantonrechter voor geschillen"
+  benefits:
+    - "Pensioenopbouw (verplicht vanaf 21 jaar)"
+    - "Werkloosheidsuitkering (WW)"
+    - "Ziektewet uitkering"
+    - "Arbeidsongeschiktheidsverzekering (WIA)"
+
+remote_work:
+  regulations:
+    - "Thuiswerken is recht, geen plicht"
+    - "Werkgever moet thuiswerkplek faciliteren"
+    - "Arbeidstijdenwet geldt ook thuis"
+  tax_implications:
+    - "Thuiswerkvergoeding tot €2 per dag belastingvrij"
+    - "Werkkamer aftrek mogelijk onder voorwaarden"
+    - "Grensarbeid: specifieke regels per land"
+
+compliance:
+  required_documents:
+    - "Arbeidsovereenkomst"
+    - "Loonstrook"
+    - "Pensioenregeling"
+    - "Arbeidsvoorwaardenreglement"
+  data_protection: "AVG/GDPR compliance verplicht"
+  health_safety: "Arbo-wet: veilige werkplek verplicht"

@@ -1,0 +1,48 @@
+meta:
+  country: ES
+  last_updated: 2025-01-29
+  ttl_days: 30
+  disclaimer: "Información general, no asesoramiento legal. Consulte siempre con un abogado laboral para situaciones específicas."
+
+employment:
+  contract_types:
+    - "Contrato indefinido"
+    - "Contrato temporal (max 2 años)"
+    - "Contrato de interinidad"
+    - "Autónomo/Freelance"
+  notice_periods:
+    standard: "15 días (hasta 1 año), 30 días (1-5 años), 45 días (más de 5 años)"
+    probation: "15 días (max 6 meses)"
+    senior: "2 meses (después de 5 años de antigüedad)"
+  vacation_days: "Mínimo 22 días laborables (4,4 semanas)"
+  sick_leave: "Baja por enfermedad: 60% del salario (días 4-20), 75% (días 21+), 100% (accidente laboral)"
+  working_hours: "Máximo 9 horas diarias, 40 horas semanales"
+  overtime: "Recargo 25% (hasta 9h), 50% (más de 9h diarias)"
+  termination:
+    - "Despido disciplinario o por causas objetivas"
+    - "Indemnización por despido (20-33 días por año)"
+    - "Juzgados de lo Social para conflictos"
+  benefits:
+    - "Jubilación (Seguridad Social)"
+    - "Prestación por desempleo (SEPE)"
+    - "Seguridad Social (sanidad, familia)"
+    - "Comité de empresa (50+ trabajadores)"
+
+remote_work:
+  regulations:
+    - "Teletrabajo regulado por convenio"
+    - "Empresario cubre costes de equipamiento"
+    - "Derecho a la desconexión digital"
+  tax_implications:
+    - "Indemnización teletrabajo hasta 26,67€/día"
+    - "Deducción fiscal despacho en casa"
+    - "Trabajo transfronterizo: normas específicas"
+
+compliance:
+  required_documents:
+    - "Contrato de trabajo"
+    - "Nómina"
+    - "Convenio colectivo"
+    - "Reglamento de régimen interior"
+  data_protection: "RGPD compliance obligatorio"
+  health_safety: "Ley de Prevención de Riesgos Laborales obligatoria"

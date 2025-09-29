@@ -1,0 +1,81 @@
+config:
+  target: 'http://localhost:3000'
+  phases:
+    - duration: 60
+      arrivalRate: 5
+      name: "Warm up"
+    - duration: 120
+      arrivalRate: 10
+      name: "Ramp up load"
+    - duration: 300
+      arrivalRate: 20
+      name: "Sustained load"
+    - duration: 60
+      arrivalRate: 50
+      name: "Spike test"
+  defaults:
+    headers:
+      User-Agent: "Artillery Load Test"
+  plugins:
+    metrics-by-endpoint:
+      useOnlyRequestNames: true
+
+scenarios:
+  - name: "Homepage Load Test"
+    weight: 30
+    flow:
+      - get:
+          url: "/"
+          name: "Homepage"
+      - think: 2
+      - get:
+          url: "/jobs"
+          name: "Jobs Page"
+      - think: 3
+      - get:
+          url: "/pricing"
+          name: "Pricing Page"
+
+  - name: "Job Search Flow"
+    weight: 40
+    flow:
+      - get:
+          url: "/jobs"
+          name: "Jobs Page"
+      - think: 1
+      - get:
+          url: "/api/jobs"
+          name: "Jobs API"
+      - think: 2
+      - get:
+          url: "/jobs/1"
+          name: "Job Detail"
+
+  - name: "Dashboard Flow"
+    weight: 20
+    flow:
+      - get:
+          url: "/dashboard"
+          name: "Dashboard"
+      - think: 2
+      - get:
+          url: "/api/events"
+          name: "Events API"
+
+  - name: "API Stress Test"
+    weight: 10
+    flow:
+      - get:
+          url: "/api/health/live"
+          name: "Health Check"
+      - get:
+          url: "/api/health/version"
+          name: "Version Check"
+      - post:
+          url: "/api/events"
+          name: "Event Tracking"
+          json:
+            eventType: "load_test"
+            metadata:
+              test: true
+              timestamp: "{{ $timestamp }}"

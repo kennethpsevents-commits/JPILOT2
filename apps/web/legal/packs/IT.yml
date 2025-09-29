@@ -1,0 +1,48 @@
+meta:
+  country: IT
+  last_updated: 2025-01-29
+  ttl_days: 30
+  disclaimer: "Informazioni generali, non consulenza legale. Consultare sempre un avvocato del lavoro per situazioni specifiche."
+
+employment:
+  contract_types:
+    - "Contratto a tempo indeterminato"
+    - "Contratto a tempo determinato (max 24 mesi)"
+    - "Somministrazione di lavoro"
+    - "Partita IVA/Freelance"
+  notice_periods:
+    standard: "1 mese (fino a 2 anni), 2 mesi (2-5 anni), 3 mesi (oltre 5 anni)"
+    probation: "1 mese (max 6 mesi)"
+    senior: "3 mesi (dopo 5 anni di anzianità)"
+  vacation_days: "Minimo 20 giorni, spesso 26-30 giorni"
+  sick_leave: "Malattia: 50% stipendio (giorni 4-20), 66,66% (giorni 21+), 100% (infortunio sul lavoro)"
+  working_hours: "Massimo 8 ore giornaliere, 40 ore settimanali"
+  overtime: "Maggiorazione 15% (fino a 8h), 30% (oltre 8h giornaliere)"
+  termination:
+    - "Licenziamento per giusta causa o giustificato motivo"
+    - "TFR (Trattamento di Fine Rapporto) obbligatorio"
+    - "Tribunale del Lavoro per controversie"
+  benefits:
+    - "Pensione (INPS)"
+    - "Indennità di disoccupazione (NASpI)"
+    - "Assicurazione sanitaria (SSN)"
+    - "Rappresentanza sindacale"
+
+remote_work:
+  regulations:
+    - "Lavoro agile regolato da accordo"
+    - "Datore copre costi attrezzature"
+    - "Diritto alla disconnessione"
+  tax_implications:
+    - "Indennità smart working fino a 3€/giorno"
+    - "Deduzione fiscale ufficio in casa"
+    - "Lavoro transfrontaliero: norme specifiche"
+
+compliance:
+  required_documents:
+    - "Contratto di lavoro"
+    - "Busta paga"
+    - "Contratto collettivo"
+    - "Regolamento aziendale"
+  data_protection: "GDPR compliance obbligatorio"
+  health_safety: "D.Lgs. 81/08: sicurezza sul lavoro obbligatoria"

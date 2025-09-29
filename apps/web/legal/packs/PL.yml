@@ -1,0 +1,48 @@
+meta:
+  country: PL
+  last_updated: 2025-01-29
+  ttl_days: 30
+  disclaimer: "Informacje ogólne, nie porada prawna. Zawsze skonsultuj się z prawnikiem pracy w konkretnych sytuacjach."
+
+employment:
+  contract_types:
+    - "Umowa o pracę na czas nieokreślony"
+    - "Umowa o pracę na czas określony (max 33 miesiące)"
+    - "Umowa zlecenie"
+    - "Umowa o dzieło"
+  notice_periods:
+    standard: "2 tygodnie (do 3 lat pracy)"
+    probation: "2 tygodnie (max 3 miesiące)"
+    senior: "1 miesiąc (po 3 latach), 3 miesiące (po 6 latach)"
+  vacation_days: "Minimalnie 20 dni, często 26-30 dni"
+  sick_leave: "80% wynagrodzenia przez 33 dni, potem 70%"
+  working_hours: "Maksymalnie 8 godzin dziennie, 40 godzin tygodniowo"
+  overtime: "150% wynagrodzenia za nadgodziny"
+  termination:
+    - "Wypowiedzenie wymaga uzasadnienia"
+    - "Odprawa przy zwolnieniu grupowym"
+    - "Sąd pracy dla sporów"
+  benefits:
+    - "Emerytura (ZUS)"
+    - "Zasiłek dla bezrobotnych"
+    - "Chorobowe (80% przez 33 dni)"
+    - "Urlop macierzyński (20 tygodni)"
+
+remote_work:
+  regulations:
+    - "Praca zdalna regulowana umową"
+    - "Pracodawca pokrywa koszty sprzętu"
+    - "Czas pracy podlega kontroli"
+  tax_implications:
+    - "Zwrot kosztów pracy zdalnej do 300 zł/miesiąc"
+    - "Dedukcja podatkowa za biuro domowe"
+    - "PIT-11 od pracodawcy"
+
+compliance:
+  required_documents:
+    - "Umowa o pracę"
+    - "Świadectwo pracy"
+    - "Regulamin pracy"
+    - "Oświadczenie o przetwarzaniu danych"
+  data_protection: "RODO compliance obowiązkowe"
+  health_safety: "BHP: bezpieczne miejsce pracy obowiązkowe"

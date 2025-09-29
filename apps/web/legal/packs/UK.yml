@@ -1,0 +1,48 @@
+meta:
+  country: UK
+  last_updated: 2025-01-29
+  ttl_days: 30
+  disclaimer: "General information, not legal advice. Always consult an employment lawyer for specific situations."
+
+employment:
+  contract_types:
+    - "Permanent contract"
+    - "Fixed-term contract (max 4 years)"
+    - "Zero-hours contract"
+    - "Freelance/Self-employed"
+  notice_periods:
+    standard: "1 week (up to 2 years), 1 week per year (2+ years, max 12 weeks)"
+    probation: "1 week (max 6 months)"
+    senior: "3 months (after 2 years service)"
+  vacation_days: "Minimum 28 days (5.6 weeks) including bank holidays"
+  sick_leave: "Statutory Sick Pay: £109.40/week for up to 28 weeks"
+  working_hours: "Maximum 48 hours per week (opt-out possible)"
+  overtime: "No statutory right to overtime pay"
+  termination:
+    - "Unfair dismissal protection after 2 years"
+    - "Redundancy pay: 0.5-1.5 weeks per year of service"
+    - "Employment Tribunal for disputes"
+  benefits:
+    - "State Pension (National Insurance)"
+    - "Jobseeker's Allowance"
+    - "National Health Service (NHS)"
+    - "Maternity/Paternity leave"
+
+remote_work:
+  regulations:
+    - "Flexible working request right after 26 weeks"
+    - "Employer must consider health and safety"
+    - "No statutory right to work from home"
+  tax_implications:
+    - "Working from home allowance up to £6/week tax-free"
+    - "Tax relief for home office expenses"
+    - "IR35 rules for contractors"
+
+compliance:
+  required_documents:
+    - "Employment contract"
+    - "Payslip"
+    - "Employee handbook"
+    - "Data protection policy"
+  data_protection: "UK GDPR compliance mandatory"
+  health_safety: "Health and Safety at Work Act mandatory"
