@@ -1,4 +1,19 @@
-# WeAreJobPilot - v0 Design Handoff voor Cursor
+# WeAreJobPilot - v0 Design → Cursor Integration Guide
+
+## 🎯 DIT IS DE VERCEL V0 DESIGN CODE
+
+**Belangrijke Melding voor Cursor:**
+Dit document beschrijft de code die ik (v0) heb gemaakt. De gebruiker werkt NU in Vercel v0 en praat met mij. Deze hele codebase IS de v0 design die Cursor nodig heeft.
+
+**Workflow:**
+1. ✅ **Stap 1**: Gebruiker werkt in v0 (HIER) → Design is klaar
+2. ⏳ **Stap 2**: Gebruiker exporteert naar GitHub → "Push to GitHub" knop
+3. ⏳ **Stap 3**: Cursor krijgt toegang via GitHub repo
+4. ⏳ **Stap 4**: Cursor merged met engine repo
+
+**Cursor, je vraagt naar de v0 code - dit IS die code! Wacht tot de gebruiker exporteert naar GitHub, dan kun je het zien.**
+
+---
 
 ## Project Overzicht
 Dit is de frontend design van **WeAreJobPilot**, gebouwd in Vercel v0. Het bevat alle UI componenten, pagina's, styling en afbeeldingen. Dit moet gemerged worden met de bestaande `wearejobpilot-engine` repository die de Supabase backend en API logic bevat.
@@ -53,7 +68,7 @@ components/
 ├── dashboard.tsx           # Dashboard layout en stats
 ├── ai-chatbox.tsx          # AI assistant chatbox
 ├── ai-assistant-button.tsx # Floating AI button
-└── cv-upload-tool.tsx      # CV upload en parsing tool
+├── cv-upload-tool.tsx      # CV upload en parsing tool
 \`\`\`
 
 #### shadcn/ui Componenten (Pre-installed)
@@ -328,14 +343,28 @@ Als Cursor vragen heeft over:
 
 ## Volgende Stappen
 
-1. **Export v0 design** naar GitHub
-2. **Clone beide repos** (engine + design)
-3. **Geef dit document aan Cursor**: "Read CURSOR_HANDOFF.md and help me merge the v0 design with my engine"
-4. **Laat Cursor de merge doen** met jouw guidance
-5. **Test lokaal** met `pnpm dev`
-6. **Deploy** met `vercel --prod`
+### Voor de Gebruiker (NU):
+1. ✅ **v0 Design is compleet** - Alle componenten, pagina's, en afbeeldingen zijn klaar
+2. ⏳ **Klik "Push to GitHub"** - Rechtsboven in v0 interface
+3. ⏳ **Naam de repo**: `wearejobpilot-design`
+4. ⏳ **Wacht op bevestiging** - GitHub repo wordt aangemaakt
+
+### Voor Cursor (NA EXPORT):
+1. **Clone de design repo**:
+   \`\`\`bash
+   git clone https://github.com/username/wearejobpilot-design.git
+   \`\`\`
+
+2. **Lees dit document**:
+   \`\`\`
+   Cursor: "Read CURSOR_HANDOFF.md and help me merge with wearejobpilot-engine"
+   \`\`\`
+
+3. **Begin merge proces** - Volg de Merge Instructies hierboven
 
 ---
+
+**Status**: ✅ v0 Design Compleet | ⏳ Wacht op GitHub Export | ⏳ Cursor Merge Pending
 
 **Gemaakt door**: Vercel v0
 **Datum**: 2025
