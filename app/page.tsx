@@ -40,7 +40,7 @@ export default function Home() {
                   src="/office-team-collaboration.jpg"
                   alt="Happy professionals collaborating in modern office"
                   fill
-                  className="object-cover"
+                  className="object-cover contrast-[0.81]"
                 />
               </div>
             </div>
@@ -55,7 +55,7 @@ export default function Home() {
                   src="/office-diverse-team.jpg"
                   alt="Diverse team of professionals working together in modern office"
                   fill
-                  className="object-cover"
+                  className="object-cover contrast-[0.81]"
                 />
               </div>
               <div className="order-1 md:order-2">

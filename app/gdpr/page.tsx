@@ -1,7 +1,7 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { GDPRActions } from "@/components/gdpr-actions"
 
 export default function GDPRPage() {
   return (
@@ -69,13 +69,7 @@ export default function GDPRPage() {
               </div>
             </Card>
 
-            <div className="grid md:grid-cols-3 gap-4">
-              <Button className="bg-primary hover:bg-primary/90">Request My Data</Button>
-              <Button variant="outline">Update My Data</Button>
-              <Button variant="outline" className="text-red-600 hover:text-red-700 bg-transparent">
-                Delete My Account
-              </Button>
-            </div>
+            <GDPRActions />
           </div>
         </section>
       </main>

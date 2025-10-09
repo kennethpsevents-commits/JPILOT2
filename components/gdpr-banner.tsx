@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 
 export function GDPRBanner() {
   const [isVisible, setIsVisible] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const consent = localStorage.getItem("gdpr-consent")
@@ -14,13 +15,45 @@ export function GDPRBanner() {
     }
   }, [])
 
-  const handleAccept = () => {
+  const handleAccept = async () => {
+    setIsLoading(true)
     localStorage.setItem("gdpr-consent", "accepted")
+
+    try {
+      await fetch("/api/gdpr/consent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          consentType: "cookies",
+          consentGiven: true,
+        }),
+      })
+    } catch (error) {
+      console.error("[v0] Failed to save consent:", error)
+    }
+
+    setIsLoading(false)
     setIsVisible(false)
   }
 
-  const handleReject = () => {
+  const handleReject = async () => {
+    setIsLoading(true)
     localStorage.setItem("gdpr-consent", "rejected")
+
+    try {
+      await fetch("/api/gdpr/consent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          consentType: "cookies",
+          consentGiven: false,
+        }),
+      })
+    } catch (error) {
+      console.error("[v0] Failed to save consent:", error)
+    }
+
+    setIsLoading(false)
     setIsVisible(false)
   }
 
@@ -46,10 +79,10 @@ export function GDPRBanner() {
             </p>
           </div>
           <div className="flex gap-2 flex-shrink-0">
-            <Button size="sm" variant="outline" onClick={handleReject}>
+            <Button size="sm" variant="outline" onClick={handleReject} disabled={isLoading}>
               Reject All
             </Button>
-            <Button size="sm" className="bg-primary hover:bg-primary/90" onClick={handleAccept}>
+            <Button size="sm" className="bg-primary hover:bg-primary/90" onClick={handleAccept} disabled={isLoading}>
               Accept All
             </Button>
           </div>
