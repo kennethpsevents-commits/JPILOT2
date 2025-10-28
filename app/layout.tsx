@@ -1,22 +1,48 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import { Suspense } from "react"
-import Link from "next/link"
-import Image from "next/image"
+import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
+import { GDPRBanner } from "@/components/gdpr-banner"
+import { ToastProvider } from "@/components/ui/toast-provider"
+import { AnalyticsProvider } from "@/components/analytics-provider"
 
-const inter = Inter({
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
+})
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
 })
 
 export const metadata: Metadata = {
-  title: "WeAreJobPilot – AI Job Hunter & Career Copilot",
-  description:
-    "Your AI-powered copilot for career navigation. Upload your CV, get AI-powered edits, and apply to jobs faster.",
-  generator: "v0.app",
+  title: "JobPilot - AI-Powered Job Search",
+  description: "Find your dream job with AI-powered matching and smart recommendations",
+  keywords: ["jobs", "careers", "employment", "job search", "AI matching", "recruitment"],
+  authors: [{ name: "JobPilot" }],
+  openGraph: {
+    title: "JobPilot - AI-Powered Job Search",
+    description: "Find your dream job with AI-powered matching and smart recommendations",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "JobPilot - AI-Powered Job Search",
+    description: "Find your dream job with AI-powered matching and smart recommendations",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  manifest: "/manifest.json",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+  },
+    generator: 'v0.app'
 }
 
 export default function RootLayout({
@@ -25,24 +51,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans ${inter.variable} antialiased`}>
-        <div className="fixed top-4 left-6 z-50 flex items-center gap-3 group" role="banner">
-          <Link href="/" className="flex items-center gap-3" aria-label="WeAreJobPilot Home">
-            <Image
-              src="/logo.jpg"
-              alt="JobPilot Logo"
-              width={32}
-              height={32}
-              className="h-8 w-8 group-hover:opacity-80 transition-opacity"
-              priority
-            />
-            <span className="text-base font-semibold tracking-tight text-foreground">
-              we are <span className="text-primary">JOBPILOT</span>.
-            </span>
-          </Link>
-        </div>
-        <Suspense fallback={null}>{children}</Suspense>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body>
+        <AnalyticsProvider>
+          {children}
+          <GDPRBanner />
+          <ToastProvider />
+        </AnalyticsProvider>
       </body>
     </html>
   )

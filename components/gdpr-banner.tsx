@@ -1,12 +1,13 @@
 "use client"
 
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { X } from "lucide-react"
+import Link from "next/link"
 
 export function GDPRBanner() {
   const [isVisible, setIsVisible] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const consent = localStorage.getItem("gdpr-consent")
@@ -15,77 +16,46 @@ export function GDPRBanner() {
     }
   }, [])
 
-  const handleAccept = async () => {
-    setIsLoading(true)
+  const handleAccept = () => {
     localStorage.setItem("gdpr-consent", "accepted")
-
-    try {
-      await fetch("/api/gdpr/consent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          consentType: "cookies",
-          consentGiven: true,
-        }),
-      })
-    } catch (error) {
-      console.error("[v0] Failed to save consent:", error)
-    }
-
-    setIsLoading(false)
     setIsVisible(false)
   }
 
-  const handleReject = async () => {
-    setIsLoading(true)
-    localStorage.setItem("gdpr-consent", "rejected")
-
-    try {
-      await fetch("/api/gdpr/consent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          consentType: "cookies",
-          consentGiven: false,
-        }),
-      })
-    } catch (error) {
-      console.error("[v0] Failed to save consent:", error)
-    }
-
-    setIsLoading(false)
+  const handleDecline = () => {
+    localStorage.setItem("gdpr-consent", "declined")
     setIsVisible(false)
   }
 
   if (!isVisible) return null
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6">
-      <Card className="max-w-4xl mx-auto p-6 shadow-2xl border-2">
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+    <div className="fixed inset-x-0 bottom-0 z-50 p-4">
+      <Card className="mx-auto max-w-4xl border-2 bg-white p-6 shadow-lg">
+        <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
-            <h3 className="text-lg font-bold mb-2">We value your privacy</h3>
-            <p className="text-sm text-muted-foreground">
+            <h3 className="mb-2 text-lg font-semibold">We value your privacy</h3>
+            <p className="mb-4 text-sm text-gray-600">
               We use cookies and similar technologies to enhance your experience, analyze site traffic, and personalize
-              content. By clicking 'Accept All', you consent to our use of cookies. Read our{" "}
-              <a href="/privacy" className="text-primary hover:underline">
+              content. By clicking "Accept All", you consent to our use of cookies. You can manage your preferences or
+              learn more in our{" "}
+              <Link href="/privacy" className="font-medium text-blue-600 hover:underline">
                 Privacy Policy
-              </a>{" "}
-              and{" "}
-              <a href="/gdpr" className="text-primary hover:underline">
-                GDPR Compliance
-              </a>{" "}
-              for more information.
+              </Link>
+              .
             </p>
+            <div className="flex flex-wrap gap-3">
+              <Button onClick={handleAccept}>Accept All</Button>
+              <Button variant="outline" onClick={handleDecline}>
+                Decline
+              </Button>
+              <Button variant="ghost" asChild>
+                <Link href="/privacy">Learn More</Link>
+              </Button>
+            </div>
           </div>
-          <div className="flex gap-2 flex-shrink-0">
-            <Button size="sm" variant="outline" onClick={handleReject} disabled={isLoading}>
-              Reject All
-            </Button>
-            <Button size="sm" className="bg-primary hover:bg-primary/90" onClick={handleAccept} disabled={isLoading}>
-              Accept All
-            </Button>
-          </div>
+          <Button variant="ghost" size="icon" onClick={handleDecline} className="flex-shrink-0">
+            <X className="h-5 w-5" />
+          </Button>
         </div>
       </Card>
     </div>

@@ -1,72 +1,121 @@
-import { Header } from "@/components/header"
-import { JobSearch } from "@/components/job-search"
-import { Footer } from "@/components/footer"
-import { AIAssistantButton } from "@/components/ai-assistant-button"
+import { createClient } from "@/lib/supabase/server"
+import { Navigation } from "@/components/navigation"
+import { JobCard } from "@/components/job-card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Search } from "lucide-react"
 import Image from "next/image"
 
-export default function JobsPage() {
-  return (
-    <div className="min-h-screen">
-      <Header />
-      <main role="main" className="pt-20">
-        <div className="container mx-auto px-6 lg:px-8 py-12">
-          <div className="max-w-4xl mx-auto text-center mb-12">
-            <h1 className="text-4xl lg:text-5xl font-bold mb-4">AI Job Search Radar</h1>
-            <p className="text-lg text-muted-foreground">
-              Advanced AI-powered job search with intelligent matching and real-time opportunities across Europe
-            </p>
-          </div>
+export default async function JobsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ search?: string; type?: string; location?: string }>
+}) {
+  const supabase = await createClient()
+  const params = await searchParams
 
-          <div className="mb-12 relative h-[300px] rounded-xl overflow-hidden shadow-lg">
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  let query = supabase.from("jobs").select("*").eq("status", "active").order("posted_date", { ascending: false })
+
+  if (params.search) {
+    query = query.or(
+      `title.ilike.%${params.search}%,company.ilike.%${params.search}%,description.ilike.%${params.search}%`,
+    )
+  }
+
+  if (params.type && params.type !== "all") {
+    query = query.eq("type", params.type)
+  }
+
+  if (params.location) {
+    query = query.ilike("location", `%${params.location}%`)
+  }
+
+  const { data: jobs } = await query
+
+  let savedJobIds: string[] = []
+  if (user) {
+    const { data: savedJobs } = await supabase.from("saved_jobs").select("job_id").eq("user_id", user.id)
+    savedJobIds = savedJobs?.map((sj) => sj.job_id) || []
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Navigation user={user} />
+
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mb-8">
+          <h1 className="mb-2 text-3xl font-bold text-gray-900">Find Your Dream Job</h1>
+          <p className="text-gray-600">Browse thousands of opportunities from top companies</p>
+        </div>
+
+        <div className="mb-8 grid gap-6 md:grid-cols-2">
+          <div className="relative h-48 overflow-hidden rounded-xl shadow-md">
             <Image
-              src="/office-job-search.jpg"
-              alt="Professionals searching for jobs in modern office"
+              src="/professional-female-hr-recruiter-smiling-in-modern.jpg"
+              alt="HR specialist helping job seekers find opportunities"
               fill
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent flex items-end">
-              <div className="p-8">
-                <h2 className="text-2xl font-bold text-white mb-2">Find Your Perfect Role</h2>
-                <p className="text-white/90">Join thousands of professionals who found their dream job with us</p>
-              </div>
-            </div>
           </div>
-
-          <JobSearch />
-
-          <div className="mt-16 bg-muted/30 rounded-2xl p-8 md:p-12">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                <h2 className="text-3xl font-bold mb-4">Your Success Is Our Mission</h2>
-                <p className="text-lg text-muted-foreground mb-6">
-                  Our AI-powered job matching connects you with opportunities that align with your skills, experience,
-                  and career goals. Join professionals who have transformed their careers with WeAreJobPilot.
-                </p>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-background p-4 rounded-lg text-center">
-                    <div className="text-2xl font-bold text-primary">15K+</div>
-                    <div className="text-sm text-muted-foreground">Jobs Posted</div>
-                  </div>
-                  <div className="bg-background p-4 rounded-lg text-center">
-                    <div className="text-2xl font-bold text-accent">92%</div>
-                    <div className="text-sm text-muted-foreground">Match Rate</div>
-                  </div>
-                </div>
-              </div>
-              <div className="relative h-[350px] rounded-xl overflow-hidden shadow-xl">
-                <Image
-                  src="/office-success-celebration.jpg"
-                  alt="Happy professionals celebrating successful job placement"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </div>
+          <div className="relative h-48 overflow-hidden rounded-xl shadow-md">
+            <Image
+              src="/happy-male-recruitment-consultant-in-office-with-l.jpg"
+              alt="Recruitment consultant providing career guidance"
+              fill
+              className="object-cover"
+            />
           </div>
         </div>
+
+        <div className="mb-8 rounded-lg bg-white p-6 shadow-sm">
+          <form className="flex flex-col gap-4 md:flex-row">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+              <Input
+                name="search"
+                placeholder="Job title, company, or keywords..."
+                className="pl-10"
+                defaultValue={params.search}
+              />
+            </div>
+            <Select name="type" defaultValue={params.type || "all"}>
+              <SelectTrigger className="w-full md:w-48">
+                <SelectValue placeholder="Job Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Types</SelectItem>
+                <SelectItem value="full-time">Full-time</SelectItem>
+                <SelectItem value="part-time">Part-time</SelectItem>
+                <SelectItem value="contract">Contract</SelectItem>
+                <SelectItem value="remote">Remote</SelectItem>
+              </SelectContent>
+            </Select>
+            <Input name="location" placeholder="Location" className="w-full md:w-48" defaultValue={params.location} />
+            <Button type="submit">Search</Button>
+          </form>
+        </div>
+
+        <div className="mb-4 flex items-center justify-between">
+          <p className="text-sm text-gray-600">{jobs?.length || 0} jobs found</p>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {jobs?.map((job) => (
+            <JobCard key={job.id} job={job} isSaved={savedJobIds.includes(job.id)} userId={user?.id} />
+          ))}
+        </div>
+
+        {!jobs || jobs.length === 0 ? (
+          <div className="py-12 text-center">
+            <p className="text-gray-600">No jobs found matching your criteria. Try adjusting your filters.</p>
+          </div>
+        ) : null}
       </main>
-      <Footer />
-      <AIAssistantButton />
     </div>
   )
 }
