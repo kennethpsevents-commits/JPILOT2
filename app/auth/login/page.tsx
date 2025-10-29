@@ -55,20 +55,22 @@ export default function LoginPage() {
 
         <div className="grid gap-8 md:grid-cols-2">
           <div className="space-y-6">
-            <div className="relative h-64 overflow-hidden rounded-2xl shadow-lg">
+            <div className="relative overflow-hidden rounded-2xl bg-gray-100">
               <Image
                 src="/welcoming-female-onboarding-specialist-in-bright-o.jpg"
                 alt="Welcome team member ready to assist"
-                fill
-                className="object-cover"
+                width={500}
+                height={400}
+                className="object-contain object-top w-full h-auto max-h-96 mx-auto p-4 rounded-xl shadow-lg"
               />
             </div>
-            <div className="relative h-64 overflow-hidden rounded-2xl shadow-lg">
+            <div className="relative overflow-hidden rounded-2xl bg-gray-100">
               <Image
                 src="/cheerful-male-customer-service-representative-in-m.jpg"
                 alt="Onboarding specialist providing support"
-                fill
-                className="object-cover"
+                width={500}
+                height={400}
+                className="object-contain object-top w-full h-auto max-h-96 mx-auto p-4 rounded-xl shadow-lg"
               />
             </div>
           </div>

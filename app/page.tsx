@@ -1,10 +1,12 @@
 import { createClient } from "@/lib/supabase/server"
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Search, Target, TrendingUp } from "lucide-react"
+import { Card } from "@/components/ui/card"
+import { Search, Target, TrendingUp, Plane } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
+import { ImageGrid } from "@/components/image-grid"
+import { AILogo } from "@/components/ai-logo"
+import { colors, container, gridOverlay } from "@/lib/design-system"
 
 export default async function HomePage() {
   const supabase = await createClient()
@@ -14,98 +16,95 @@ export default async function HomePage() {
   } = await supabase.auth.getUser()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className={`${colors.bg} min-h-screen relative overflow-hidden`}>
+      <div className={gridOverlay}></div>
+
       <Navigation user={user} />
 
-      <main>
-        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="mb-6 text-5xl font-bold leading-tight text-gray-900 sm:text-6xl">
-              Find Your Dream Job with{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                AI-Powered
-              </span>{" "}
-              Matching
-            </h1>
-            <p className="mx-auto mb-8 max-w-2xl text-xl text-gray-600">
-              JobPilot uses advanced AI to match you with the perfect opportunities. Start your career journey today.
-            </p>
-            <div className="flex flex-col justify-center gap-4 sm:flex-row">
-              <Button size="lg" asChild className="text-lg">
-                <Link href="/jobs">Browse Jobs</Link>
+      <main className={container}>
+        <section className="text-center mb-20">
+          <div className="flex justify-center mb-6">
+            <AILogo size="lg" label="AI-Powered Matching" />
+          </div>
+          <h1 className="text-5xl md:text-6xl font-bold text-white text-center tracking-tight leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-emerald-400">
+            Find Your Dream Job with AI-Powered Matching
+          </h1>
+          <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto text-center leading-relaxed mb-12">
+            JobPilot uses advanced AI to match you with the perfect opportunities. Start your career journey today with
+            enterprise-grade technology.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" asChild className={colors.button}>
+              <Link href="/jobs">
+                Browse Jobs <Plane className="ml-2 w-5 h-5" />
+              </Link>
+            </Button>
+            {!user && (
+              <Button
+                size="lg"
+                variant="outline"
+                asChild
+                className="border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-slate-900 bg-transparent"
+              >
+                <Link href="/auth/sign-up">Sign Up Free</Link>
               </Button>
-              {!user && (
-                <Button size="lg" variant="outline" asChild className="text-lg bg-transparent">
-                  <Link href="/auth/sign-up">Sign Up Free</Link>
-                </Button>
-              )}
-            </div>
+            )}
           </div>
         </section>
 
-        <section className="bg-white py-12">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-8 md:grid-cols-2">
-              <div className="relative h-64 overflow-hidden rounded-2xl shadow-lg">
-                <Image
-                  src="/happy-smiling-female-customer-service-agent-in-mod.jpg"
-                  alt="Friendly customer support representative ready to help"
-                  fill
-                  className="object-cover"
-                />
+        <ImageGrid
+          images={[
+            {
+              src: "/happy-smiling-female-customer-service-agent-in-mod.jpg",
+              alt: "Professional multicultural team in modern office",
+            },
+            {
+              src: "/cheerful-male-customer-service-team-member-in-brig.jpg",
+              alt: "Friendly support agent helping user",
+            },
+          ]}
+        />
+
+        <section>
+          <h2 className="text-5xl md:text-6xl font-bold text-white text-center tracking-tight leading-tight mb-12">
+            Why Choose JobPilot?
+          </h2>
+          <div className="grid gap-8 md:grid-cols-3">
+            <Card className={`${colors.card} rounded-2xl p-10 shadow-xl hover:shadow-cyan-500/20 transition`}>
+              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600">
+                <Search className="h-8 w-8 text-white" />
               </div>
-              <div className="relative h-64 overflow-hidden rounded-2xl shadow-lg">
-                <Image
-                  src="/cheerful-male-customer-service-team-member-in-brig.jpg"
-                  alt="Professional support team member providing assistance"
-                  fill
-                  className="object-cover"
-                />
+              <div className="flex items-center gap-2 mb-4">
+                <AILogo size="sm" />
+                <h3 className="text-2xl font-bold text-white">Smart Search</h3>
               </div>
-            </div>
-          </div>
-        </section>
+              <p className="text-slate-300 leading-relaxed">
+                Advanced filters and AI-powered search to find exactly what you're looking for
+              </p>
+            </Card>
 
-        <section className="bg-white py-20">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h2 className="mb-12 text-center text-3xl font-bold text-gray-900">Why Choose JobPilot?</h2>
-            <div className="grid gap-8 md:grid-cols-3">
-              <Card>
-                <CardHeader>
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100">
-                    <Search className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <CardTitle>Smart Search</CardTitle>
-                  <CardDescription>
-                    Advanced filters and AI-powered search to find exactly what you're looking for
-                  </CardDescription>
-                </CardHeader>
-              </Card>
+            <Card className={`${colors.card} rounded-2xl p-10 shadow-xl hover:shadow-emerald-500/20 transition`}>
+              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600">
+                <Target className="h-8 w-8 text-white" />
+              </div>
+              <div className="flex items-center gap-2 mb-4">
+                <AILogo size="sm" />
+                <h3 className="text-2xl font-bold text-white">Perfect Matches</h3>
+              </div>
+              <p className="text-slate-300 leading-relaxed">
+                Our AI analyzes your skills and experience to recommend the best opportunities
+              </p>
+            </Card>
 
-              <Card>
-                <CardHeader>
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-100">
-                    <Target className="h-6 w-6 text-indigo-600" />
-                  </div>
-                  <CardTitle>Perfect Matches</CardTitle>
-                  <CardDescription>
-                    Our AI analyzes your skills and experience to recommend the best opportunities
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100">
-                    <TrendingUp className="h-6 w-6 text-purple-600" />
-                  </div>
-                  <CardTitle>Track Progress</CardTitle>
-                  <CardDescription>
-                    Monitor your applications and get insights to improve your job search strategy
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </div>
+            <Card className={`${colors.card} rounded-2xl p-10 shadow-xl hover:shadow-purple-500/20 transition`}>
+              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-600">
+                <TrendingUp className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">Track Progress</h3>
+              <p className="text-slate-300 leading-relaxed">
+                Monitor your applications and get insights to improve your job search strategy
+              </p>
+            </Card>
           </div>
         </section>
       </main>

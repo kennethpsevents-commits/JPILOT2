@@ -18,20 +18,22 @@ export default async function PrivacyPage() {
         <h1 className="mb-8 text-4xl font-bold text-gray-900">Privacy Policy</h1>
 
         <div className="mb-8 grid gap-6 md:grid-cols-2">
-          <div className="relative h-48 overflow-hidden rounded-xl shadow-md">
+          <div className="relative overflow-hidden rounded-xl bg-gray-100">
             <Image
               src="/placeholder.svg?key=bnqwl"
               alt="Trust and safety team member ensuring data protection"
-              fill
-              className="object-cover"
+              width={600}
+              height={400}
+              className="object-contain object-top w-full h-auto max-h-96 mx-auto p-4 rounded-xl shadow-lg"
             />
           </div>
-          <div className="relative h-48 overflow-hidden rounded-xl shadow-md">
+          <div className="relative overflow-hidden rounded-xl bg-gray-100">
             <Image
               src="/placeholder.svg?key=m3xrp"
               alt="Compliance officer managing privacy and security"
-              fill
-              className="object-cover"
+              width={600}
+              height={400}
+              className="object-contain object-top w-full h-auto max-h-96 mx-auto p-4 rounded-xl shadow-lg"
             />
           </div>
         </div>

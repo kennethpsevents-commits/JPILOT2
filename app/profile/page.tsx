@@ -117,20 +117,22 @@ export default function ProfilePage() {
         </div>
 
         <div className="mb-8 grid gap-6 md:grid-cols-2">
-          <div className="relative h-40 overflow-hidden rounded-xl shadow-md">
+          <div className="relative overflow-hidden rounded-xl bg-gray-100">
             <Image
               src="/helpful-female-profile-specialist-in-office-smilin.jpg"
               alt="Profile specialist helping with account management"
-              fill
-              className="object-cover"
+              width={500}
+              height={400}
+              className="object-contain object-top w-full h-auto max-h-96 mx-auto p-4 rounded-xl shadow-lg"
             />
           </div>
-          <div className="relative h-40 overflow-hidden rounded-xl shadow-md">
+          <div className="relative overflow-hidden rounded-xl bg-gray-100">
             <Image
               src="/professional-male-account-manager-in-modern-office.jpg"
               alt="Account manager providing profile assistance"
-              fill
-              className="object-cover"
+              width={500}
+              height={400}
+              className="object-contain object-top w-full h-auto max-h-96 mx-auto p-4 rounded-xl shadow-lg"
             />
           </div>
         </div>

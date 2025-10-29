@@ -61,20 +61,22 @@ export default function SignUpPage() {
 
         <div className="grid gap-8 md:grid-cols-2">
           <div className="space-y-6">
-            <div className="relative h-64 overflow-hidden rounded-2xl shadow-lg">
+            <div className="relative overflow-hidden rounded-2xl bg-gray-100">
               <Image
                 src="/enthusiastic-female-registration-specialist-in-off.jpg"
                 alt="Registration specialist helping new users"
-                fill
-                className="object-cover"
+                width={500}
+                height={400}
+                className="object-contain object-top w-full h-auto max-h-96 mx-auto p-4 rounded-xl shadow-lg"
               />
             </div>
-            <div className="relative h-64 overflow-hidden rounded-2xl shadow-lg">
+            <div className="relative overflow-hidden rounded-2xl bg-gray-100">
               <Image
                 src="/placeholder.svg?height=400&width=500"
                 alt="Onboarding coordinator welcoming new members"
-                fill
-                className="object-cover"
+                width={500}
+                height={400}
+                className="object-contain object-top w-full h-auto max-h-96 mx-auto p-4 rounded-xl shadow-lg"
               />
             </div>
           </div>

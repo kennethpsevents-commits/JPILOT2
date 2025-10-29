@@ -1,10 +1,11 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Briefcase, LogOut, User, Activity } from "lucide-react"
+import { Plane, Menu, X, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
+import { useState } from "react"
 
 interface NavigationProps {
   user?: {
@@ -14,6 +15,7 @@ interface NavigationProps {
 
 export function Navigation({ user }: NavigationProps) {
   const router = useRouter()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const handleSignOut = async () => {
     const supabase = createClient()
@@ -23,62 +25,89 @@ export function Navigation({ user }: NavigationProps) {
   }
 
   return (
-    <nav className="border-b bg-white">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+    <nav className="relative z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+      <div className="container mx-auto px-6 py-6 flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600">
-            <Briefcase className="h-6 w-6 text-white" />
-          </div>
-          <span className="text-xl font-bold text-gray-900">JobPilot</span>
+          <Plane className="w-8 h-8 text-cyan-400" />
+          <span className="text-2xl font-bold text-white">JobPilot</span>
         </Link>
 
-        <div className="flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-8">
+          <Link href="/jobs" className="text-white hover:text-cyan-400 transition">
+            Job Radar
+          </Link>
+          <Link href="/dashboard" className="text-white hover:text-cyan-400 transition">
+            Cockpit
+          </Link>
+          <Link href="/about" className="text-white hover:text-cyan-400 transition">
+            Mission Control
+          </Link>
           {user ? (
             <>
-              <Button variant="ghost" asChild>
-                <Link href="/jobs">Browse Jobs</Link>
-              </Button>
-              <Button variant="ghost" asChild>
-                <Link href="/dashboard">Dashboard</Link>
-              </Button>
-              <Button variant="ghost" asChild>
-                <Link href="/health-check">
-                  <Activity className="mr-2 h-4 w-4" />
-                  Health Check
-                </Link>
-              </Button>
-              <Button variant="ghost" asChild>
-                <Link href="/profile">
-                  <User className="mr-2 h-4 w-4" />
-                  Profile
-                </Link>
-              </Button>
-              <Button variant="outline" onClick={handleSignOut}>
-                <LogOut className="mr-2 h-4 w-4" />
-                Sign out
+              <Link href="/profile" className="text-white hover:text-cyan-400 transition">
+                Profile
+              </Link>
+              <Button
+                onClick={handleSignOut}
+                variant="outline"
+                className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-slate-900 bg-transparent"
+              >
+                Sign Out
               </Button>
             </>
           ) : (
             <>
-              <Button variant="ghost" asChild>
-                <Link href="/jobs">Browse Jobs</Link>
-              </Button>
-              <Button variant="ghost" asChild>
-                <Link href="/health-check">
-                  <Activity className="mr-2 h-4 w-4" />
-                  Health Check
-                </Link>
-              </Button>
-              <Button variant="outline" asChild>
-                <Link href="/auth/login">Sign in</Link>
-              </Button>
-              <Button asChild>
-                <Link href="/auth/sign-up">Sign up</Link>
-              </Button>
+              <Link href="/auth/login">
+                <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-800 bg-transparent">
+                  Sign In
+                </Button>
+              </Link>
+              <Link href="/auth/sign-up">
+                <Button className="bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold">
+                  Launch Now <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </Link>
             </>
           )}
         </div>
+
+        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white">
+          {mobileMenuOpen ? <X /> : <Menu />}
+        </button>
       </div>
+
+      {mobileMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 w-full bg-slate-900/95 backdrop-blur z-40 p-6 border-b border-slate-800">
+          <Link href="/jobs" className="block py-3 text-white hover:text-cyan-400">
+            Job Radar
+          </Link>
+          <Link href="/dashboard" className="block py-3 text-white hover:text-cyan-400">
+            Cockpit
+          </Link>
+          <Link href="/about" className="block py-3 text-white hover:text-cyan-400">
+            Mission Control
+          </Link>
+          {user ? (
+            <>
+              <Link href="/profile" className="block py-3 text-white hover:text-cyan-400">
+                Profile
+              </Link>
+              <Button onClick={handleSignOut} className="w-full mt-4 bg-cyan-500 hover:bg-cyan-400 text-slate-900">
+                Sign Out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link href="/auth/login" className="block py-3 text-white hover:text-cyan-400">
+                Sign In
+              </Link>
+              <Link href="/auth/sign-up">
+                <Button className="w-full mt-4 bg-cyan-500 hover:bg-cyan-400 text-slate-900">Launch Now</Button>
+              </Link>
+            </>
+          )}
+        </div>
+      )}
     </nav>
   )
 }
