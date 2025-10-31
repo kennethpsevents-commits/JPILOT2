@@ -1,4 +1,3 @@
-import { Navigation } from "@/components/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { createClient } from "@/lib/supabase/server"
 import Image from "next/image"
@@ -12,8 +11,6 @@ export default async function PrivacyPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation user={user} />
-
       <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
         <h1 className="mb-8 text-4xl font-bold text-gray-900">Privacy Policy</h1>
 

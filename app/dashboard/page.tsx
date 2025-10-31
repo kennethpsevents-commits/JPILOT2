@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server"
-import { Navigation } from "@/components/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -113,8 +112,6 @@ export default async function DashboardPage({
   return (
     <div className="bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 min-h-screen relative overflow-hidden">
       <div className="absolute inset-0 bg-[url('/grid.jpg')] opacity-10 pointer-events-none"></div>
-
-      <Navigation user={user} />
 
       <main className="container mx-auto px-6 py-20 relative z-10">
         <div className="mb-12 text-center">

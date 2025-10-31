@@ -5,18 +5,16 @@ import type React from "react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
-import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Loader2 } from "lucide-react"
-import { use } from "react"
 import Image from "next/image"
 
 export default function ApplyPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params)
+  const { id } = params
   const [coverLetter, setCoverLetter] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -59,8 +57,6 @@ export default function ApplyPage({ params }: { params: Promise<{ id: string }> 
   return (
     <div className="bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 min-h-screen relative overflow-hidden">
       <div className="absolute inset-0 bg-[url('/grid.jpg')] opacity-10 pointer-events-none"></div>
-
-      <Navigation />
 
       <main className="container mx-auto px-6 py-20 relative z-10">
         <div className="mb-12 text-center">

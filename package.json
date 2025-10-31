@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "ci:check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm build",
+    "ci:check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm validate:all && pnpm build",
     "dev": "next dev",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -13,7 +13,10 @@
     "start": "next start",
     "test": "playwright test",
     "test:unit": "echo 'Unit tests not configured yet' && exit 0",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "validate:all": "pnpm validate:routes && pnpm validate:functions",
+    "validate:functions": "tsx scripts/validate-functions.ts",
+    "validate:routes": "tsx scripts/validate-routes.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -86,6 +89,7 @@
     "postcss": "^8.5",
     "prettier": "^3.4.2",
     "tailwindcss": "^4.1.9",
+    "tsx": "^4.19.2",
     "tw-animate-css": "1.3.3",
     "typescript": "^5"
   }

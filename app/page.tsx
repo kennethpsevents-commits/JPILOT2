@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server"
-import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Search, Target, TrendingUp, Plane } from "lucide-react"
@@ -18,8 +17,6 @@ export default async function HomePage() {
   return (
     <div className={`${colors.bg} min-h-screen relative overflow-hidden`}>
       <div className={gridOverlay}></div>
-
-      <Navigation user={user} />
 
       <main className={container}>
         <section className="text-center mb-20">

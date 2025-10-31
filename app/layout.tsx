@@ -5,6 +5,7 @@ import "./globals.css"
 import { GDPRBanner } from "@/components/gdpr-banner"
 import { ToastProvider } from "@/components/ui/toast-provider"
 import { AnalyticsProvider } from "@/components/analytics-provider"
+import { LayoutWrapper } from "@/components/layout-wrapper"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,7 +55,7 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       <body>
         <AnalyticsProvider>
-          {children}
+          <LayoutWrapper>{children}</LayoutWrapper>
           <GDPRBanner />
           <ToastProvider />
         </AnalyticsProvider>

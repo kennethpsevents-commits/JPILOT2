@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server"
-import { Navigation } from "@/components/navigation"
 import { JobCard } from "@/components/job-card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -48,8 +47,6 @@ export default async function JobsPage({
   return (
     <div className={`${colors.bg} min-h-screen relative overflow-hidden`}>
       <div className={gridOverlay}></div>
-
-      <Navigation user={user} />
 
       <main className={container}>
         <div className="mb-16 text-center">
