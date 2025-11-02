@@ -7,12 +7,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Alert, AlertDescription } from "@/components/ui/alert"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
 import { Briefcase } from "lucide-react"
-import Image from "next/image"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -20,6 +18,8 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirect = searchParams.get("redirect") || "/dashboard"
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -33,7 +33,7 @@ export default function LoginPage() {
         password,
       })
       if (error) throw error
-      router.push("/dashboard")
+      router.push(redirect)
       router.refresh()
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred")
@@ -43,85 +43,79 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
-      <div className="w-full max-w-5xl">
-        <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-600">
-            <Briefcase className="h-8 w-8 text-white" />
-          </div>
-          <h1 className="text-3xl font-bold text-gray-900">JobPilot</h1>
-          <p className="text-gray-600">Your AI-powered job search companion</p>
-        </div>
-
-        <div className="grid gap-8 md:grid-cols-2">
-          <div className="space-y-6">
-            <div className="relative overflow-hidden rounded-2xl bg-gray-100">
-              <Image
-                src="/welcoming-female-onboarding-specialist-in-bright-o.jpg"
-                alt="Welcome team member ready to assist"
-                width={500}
-                height={400}
-                className="object-contain object-top w-full h-auto max-h-96 mx-auto p-4 rounded-xl shadow-lg"
-              />
-            </div>
-            <div className="relative overflow-hidden rounded-2xl bg-gray-100">
-              <Image
-                src="/cheerful-male-customer-service-representative-in-m.jpg"
-                alt="Onboarding specialist providing support"
-                width={500}
-                height={400}
-                className="object-contain object-top w-full h-auto max-h-96 mx-auto p-4 rounded-xl shadow-lg"
-              />
+    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10 bg-muted/30">
+      <div className="w-full max-w-4xl">
+        <div className="grid lg:grid-cols-2 gap-8 items-center">
+          <div className="hidden lg:block">
+            <div className="space-y-4">
+              <div className="relative overflow-hidden rounded-2xl shadow-lg">
+                <img
+                  src="/happy-diverse-customer-support-team-smiling-at-cam.jpg"
+                  alt="Happy customer support team"
+                  className="w-full h-[250px] object-cover"
+                  style={{ filter: "contrast(0.35)" }}
+                />
+              </div>
+              <div className="relative overflow-hidden rounded-2xl shadow-lg">
+                <img
+                  src="/friendly-customer-service-representative-with-head.jpg"
+                  alt="Friendly customer service"
+                  className="w-full h-[250px] object-cover"
+                  style={{ filter: "contrast(0.35)" }}
+                />
+              </div>
             </div>
           </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-2xl">Welcome back</CardTitle>
-              <CardDescription>Sign in to your account to continue</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleLogin}>
-                <div className="flex flex-col gap-4">
-                  <div className="grid gap-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="you@example.com"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
+          <div className="flex flex-col gap-6">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Briefcase className="h-8 w-8" />
+              <span className="text-2xl font-bold">JobPilot</span>
+            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl">Welcome back</CardTitle>
+                <CardDescription>Sign in to your account to continue</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleLogin}>
+                  <div className="flex flex-col gap-6">
+                    <div className="grid gap-2">
+                      <Label htmlFor="email">Email</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="you@example.com"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="password">Password</Label>
+                      <Input
+                        id="password"
+                        type="password"
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                    </div>
+                    {error && <p className="text-sm text-destructive">{error}</p>}
+                    <Button type="submit" className="w-full" disabled={isLoading}>
+                      {isLoading ? "Signing in..." : "Sign in"}
+                    </Button>
                   </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="password">Password</Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      required
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
+                  <div className="mt-4 text-center text-sm">
+                    {"Don't have an account? "}
+                    <Link href="/auth/sign-up" className="underline underline-offset-4">
+                      Sign up
+                    </Link>
                   </div>
-                  {error && (
-                    <Alert variant="destructive">
-                      <AlertDescription>{error}</AlertDescription>
-                    </Alert>
-                  )}
-                  <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "Signing in..." : "Sign in"}
-                  </Button>
-                </div>
-                <div className="mt-4 text-center text-sm">
-                  {"Don't have an account? "}
-                  <Link href="/auth/sign-up" className="font-medium text-blue-600 hover:underline">
-                    Sign up
-                  </Link>
-                </div>
-              </form>
-            </CardContent>
-          </Card>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>

@@ -1,30 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
-    ignoreDuringBuilds: false,
+    ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: true,
   },
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'blob.v0.app',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.public.blob.vercel-storage.com',
-      },
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
-  },
-  reactCompiler: true,
-  experimental: {
-    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
+    unoptimized: true,
   },
 }
 

@@ -7,12 +7,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Alert, AlertDescription } from "@/components/ui/alert"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { Briefcase } from "lucide-react"
-import Image from "next/image"
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("")
@@ -33,14 +31,14 @@ export default function SignUpPage() {
         email,
         password,
         options: {
-          emailRedirectTo: process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL || `${window.location.origin}/dashboard`,
           data: {
             full_name: fullName,
           },
+          emailRedirectTo: process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL || `${window.location.origin}/dashboard`,
         },
       })
       if (error) throw error
-      router.push("/auth/verify-email")
+      router.push("/auth/sign-up-success")
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred")
     } finally {
@@ -49,46 +47,21 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
-      <div className="w-full max-w-5xl">
-        <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-600">
-            <Briefcase className="h-8 w-8 text-white" />
+    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10 bg-muted/30">
+      <div className="w-full max-w-sm">
+        <div className="flex flex-col gap-6">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Briefcase className="h-8 w-8" />
+            <span className="text-2xl font-bold">JobPilot</span>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">JobPilot</h1>
-          <p className="text-gray-600">Your AI-powered job search companion</p>
-        </div>
-
-        <div className="grid gap-8 md:grid-cols-2">
-          <div className="space-y-6">
-            <div className="relative overflow-hidden rounded-2xl bg-gray-100">
-              <Image
-                src="/enthusiastic-female-registration-specialist-in-off.jpg"
-                alt="Registration specialist helping new users"
-                width={500}
-                height={400}
-                className="object-contain object-top w-full h-auto max-h-96 mx-auto p-4 rounded-xl shadow-lg"
-              />
-            </div>
-            <div className="relative overflow-hidden rounded-2xl bg-gray-100">
-              <Image
-                src="/placeholder.svg?height=400&width=500"
-                alt="Onboarding coordinator welcoming new members"
-                width={500}
-                height={400}
-                className="object-contain object-top w-full h-auto max-h-96 mx-auto p-4 rounded-xl shadow-lg"
-              />
-            </div>
-          </div>
-
           <Card>
             <CardHeader>
-              <CardTitle className="text-2xl">Create an account</CardTitle>
+              <CardTitle className="text-2xl">Create account</CardTitle>
               <CardDescription>Start your job search journey today</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSignUp}>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-6">
                   <div className="grid gap-2">
                     <Label htmlFor="fullName">Full Name</Label>
                     <Input
@@ -116,25 +89,21 @@ export default function SignUpPage() {
                     <Input
                       id="password"
                       type="password"
-                      placeholder="Minimum 6 characters"
                       required
                       minLength={6}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
+                    <p className="text-xs text-muted-foreground">Must be at least 6 characters</p>
                   </div>
-                  {error && (
-                    <Alert variant="destructive">
-                      <AlertDescription>{error}</AlertDescription>
-                    </Alert>
-                  )}
+                  {error && <p className="text-sm text-destructive">{error}</p>}
                   <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "Creating account..." : "Sign up"}
+                    {isLoading ? "Creating account..." : "Create account"}
                   </Button>
                 </div>
                 <div className="mt-4 text-center text-sm">
-                  {"Already have an account? "}
-                  <Link href="/auth/login" className="font-medium text-blue-600 hover:underline">
+                  Already have an account?{" "}
+                  <Link href="/auth/login" className="underline underline-offset-4">
                     Sign in
                   </Link>
                 </div>
