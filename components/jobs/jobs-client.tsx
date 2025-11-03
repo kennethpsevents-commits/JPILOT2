@@ -149,7 +149,7 @@ export function JobsClient({ initialJobs, userSubscription = "free" }: JobsClien
   const activeFilters = [searchQuery, location, category, experienceLevel, locationType].filter(Boolean).length
 
   return (
-    <div className="container py-8 max-w-7xl mx-auto">
+    <div className="container mx-auto max-w-7xl py-8">
       <div className="mb-8 space-y-6">
         <div>
           <h1 className="text-4xl font-bold tracking-tight mb-2">Find your dream job</h1>
@@ -279,11 +279,11 @@ export function JobsClient({ initialJobs, userSubscription = "free" }: JobsClien
       </div>
 
       {/* Job Listings */}
-      <div className="space-y-4">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {jobs.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
             <p className="text-lg font-medium">No jobs found</p>
-            <p className="text-sm text-muted-foreground mt-2">Try adjusting your search or filters</p>
+            <p className="mt-2 text-sm text-muted-foreground">Try adjusting your search or filters</p>
           </div>
         ) : (
           <>
@@ -292,9 +292,9 @@ export function JobsClient({ initialJobs, userSubscription = "free" }: JobsClien
             ))}
 
             {jobs.length >= maxJobs && userSubscription !== "enterprise" && (
-              <div className="bg-muted/50 border-2 border-dashed rounded-lg p-8 text-center">
-                <h3 className="text-xl font-semibold mb-2">You've reached your plan limit</h3>
-                <p className="text-muted-foreground mb-4">Upgrade to see more jobs and unlock premium features</p>
+              <div className="col-span-full rounded-lg border-2 border-dashed bg-muted/50 p-8 text-center">
+                <h3 className="mb-2 text-xl font-semibold">You've reached your plan limit</h3>
+                <p className="mb-4 text-muted-foreground">Upgrade to see more jobs and unlock premium features</p>
                 <Button onClick={() => router.push("/pricing")} size="lg">
                   Upgrade Plan
                 </Button>
@@ -302,7 +302,7 @@ export function JobsClient({ initialJobs, userSubscription = "free" }: JobsClien
             )}
 
             {hasMore && jobs.length < maxJobs && (
-              <div ref={observerTarget} className="flex justify-center py-8">
+              <div ref={observerTarget} className="col-span-full flex justify-center py-8">
                 {loading && <Loader2 className="h-8 w-8 animate-spin text-primary" />}
               </div>
             )}

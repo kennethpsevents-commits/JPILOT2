@@ -1,21 +1,22 @@
 "use client"
 
 import type { Job } from "@/lib/types"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { MapPin, Briefcase, DollarSign, Clock, Shield, Bookmark } from "lucide-react"
+import { MapPin, Clock, Bookmark } from "lucide-react"
 import Link from "next/link"
-import { formatDistanceToNow } from "date-fns"
 import { useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 
 interface JobCardProps {
   job: Job
+  showMatchScore?: boolean
+  matchScore?: number
 }
 
-export function JobCard({ job }: JobCardProps) {
+export function JobCard({ job, showMatchScore = false, matchScore }: JobCardProps) {
   const [isSaved, setIsSaved] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
@@ -55,77 +56,103 @@ export function JobCard({ job }: JobCardProps) {
   }
 
   const formatPostedDate = () => {
-    if (!job.posted_date) return "Recently posted"
+    if (!job.posted_date) return "Recently"
     try {
-      return formatDistanceToNow(new Date(job.posted_date), { addSuffix: true })
+      const daysAgo = Math.floor((Date.now() - new Date(job.posted_date).getTime()) / (1000 * 60 * 60 * 24))
+      if (daysAgo === 0) return "Today"
+      if (daysAgo === 1) return "Yesterday"
+      if (daysAgo < 7) return `${daysAgo}d ago`
+      if (daysAgo < 30) return `${Math.floor(daysAgo / 7)}w ago`
+      return `${Math.floor(daysAgo / 30)}mo ago`
     } catch (error) {
-      console.error("[v0] Error formatting date:", error)
-      return "Recently posted"
+      return "Recently"
     }
   }
 
   return (
-    <Card className="hover:shadow-md transition-shadow">
-      <CardHeader className="pb-4">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex gap-4 flex-1">
-            {job.company_logo && (
+    <Card className="group relative h-full overflow-hidden rounded-xl border border-border/50 bg-card shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md">
+      <CardContent className="flex h-full flex-col p-5">
+        {/* Header: Company Logo + Save Button */}
+        <div className="mb-4 flex items-start justify-between gap-3">
+          <div className="flex items-start gap-3">
+            {job.company_logo ? (
               <img
                 src={job.company_logo || "/placeholder.svg"}
-                alt={job.company}
-                className="h-12 w-12 rounded-lg object-cover"
+                alt={`${job.company} logo`}
+                className="h-12 w-12 flex-shrink-0 rounded-lg object-cover ring-1 ring-border/50"
+                crossOrigin="anonymous"
               />
+            ) : (
+              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-lg font-bold text-primary ring-1 ring-border/50">
+                {job.company.charAt(0).toUpperCase()}
+              </div>
             )}
-            <div className="flex-1 min-w-0">
-              <Link href={`/jobs/${job.id}`}>
-                <h3 className="text-lg font-semibold hover:underline line-clamp-1">{job.title}</h3>
+
+            <div className="min-w-0 flex-1">
+              <Link
+                href={`/companies/${job.company.toLowerCase().replace(/\s+/g, "-")}`}
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+              >
+                {job.company}
               </Link>
-              <p className="text-sm text-muted-foreground">{job.company}</p>
+              <Link href={`/jobs/${job.id}`} className="group/title mt-0.5 block">
+                <h3 className="line-clamp-2 text-base font-semibold leading-snug text-foreground transition-colors group-hover/title:text-primary">
+                  {job.title}
+                </h3>
+              </Link>
             </div>
           </div>
-          <Button variant="ghost" size="icon" onClick={handleSaveJob} disabled={isLoading}>
-            <Bookmark className={`h-4 w-4 ${isSaved ? "fill-current" : ""}`} />
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleSaveJob}
+            disabled={isLoading}
+            className="h-9 w-9 flex-shrink-0 text-muted-foreground transition-colors hover:text-primary"
+          >
+            <Bookmark className={`h-4 w-4 ${isSaved ? "fill-current text-primary" : ""}`} />
           </Button>
         </div>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="flex flex-wrap gap-2">
-          <Badge variant="secondary" className="flex items-center gap-1">
-            <MapPin className="h-3 w-3" />
-            {job.location}
-          </Badge>
-          <Badge variant="secondary" className="flex items-center gap-1">
-            <Briefcase className="h-3 w-3" />
+
+        <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
+          <div className="flex items-center gap-1">
+            <MapPin className="h-3.5 w-3.5" />
+            <span className="truncate">{job.location}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Clock className="h-3.5 w-3.5" />
+            <span>{formatPostedDate()}</span>
+          </div>
+        </div>
+
+        <div className="mb-4 flex flex-wrap gap-1.5">
+          <Badge variant="secondary" className="rounded-md px-2 py-0.5 text-xs font-normal">
             {job.type}
           </Badge>
+
+          {job.experience_level && (
+            <Badge variant="secondary" className="rounded-md px-2 py-0.5 text-xs font-normal">
+              {job.experience_level}
+            </Badge>
+          )}
+
           {formatSalary() && (
-            <Badge variant="secondary" className="flex items-center gap-1">
-              <DollarSign className="h-3 w-3" />
+            <Badge variant="secondary" className="rounded-md px-2 py-0.5 text-xs font-medium text-green-700">
               {formatSalary()}
             </Badge>
           )}
-          <Badge variant="secondary" className="flex items-center gap-1">
-            <Clock className="h-3 w-3" />
-            {formatPostedDate()}
-          </Badge>
-          {job.requires_screening && (
-            <Badge variant="outline" className="flex items-center gap-1">
-              <Shield className="h-3 w-3" />
-              Screening Required
-            </Badge>
-          )}
         </div>
 
-        <p className="text-sm text-muted-foreground line-clamp-2">{job.description}</p>
+        <p className="mb-4 line-clamp-2 flex-1 text-sm leading-relaxed text-muted-foreground">{job.description}</p>
 
-        <div className="flex items-center justify-between pt-2">
-          <div className="flex gap-2">
-            {job.category && <Badge variant="outline">{job.category}</Badge>}
-            {job.experience_level && <Badge variant="outline">{job.experience_level}</Badge>}
-          </div>
-          <Link href={`/jobs/${job.id}`}>
-            <Button>View Details</Button>
-          </Link>
+        <div className="mt-auto">
+          <Button
+            onClick={() => router.push(`/jobs/${job.id}`)}
+            variant="outline"
+            className="w-full font-medium transition-all hover:border-primary hover:bg-primary hover:text-primary-foreground"
+          >
+            View Details
+          </Button>
         </div>
       </CardContent>
     </Card>
