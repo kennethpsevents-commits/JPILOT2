@@ -1,10 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import { NextResponse } from "next/server"
-import Stripe from "stripe"
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-12-18.acacia",
-})
+import { paddleClient } from "@/lib/paddle/server"
 
 export async function POST(request: Request) {
   try {
@@ -31,30 +27,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Application not found" }, { status: 404 })
     }
 
-    // Create Stripe checkout session
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items: [
+    // Get user profile
+    const { data: profile } = await supabase.from("profiles").select("email").eq("id", user.id).single()
+
+    // Create Paddle transaction for one-time payment
+    // Note: You'll need to create a price in Paddle dashboard for screening ($29.99)
+    const transaction = await paddleClient.createTransaction({
+      items: [
         {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: "Premium Screening Service",
-              description: `For ${application.jobs.title} at ${application.jobs.company}`,
-            },
-            unit_amount: 2999, // $29.99
-          },
+          price_id: process.env.PADDLE_SCREENING_PRICE_ID || "pri_screening_upgrade", // Replace with actual Paddle price ID
           quantity: 1,
         },
       ],
-      mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/applications/${application_id}?success=true&screening=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/upgrade/screening?application_id=${application_id}`,
-      metadata: {
+      customer_email: profile?.email,
+      custom_data: {
         application_id,
         user_id: user.id,
         type: "screening_upgrade",
       },
+      return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/applications/${application_id}?success=true&screening=true`,
     })
 
     // Create screening upgrade record
@@ -64,10 +55,10 @@ export async function POST(request: Request) {
       amount: 29.99,
       currency: "USD",
       payment_status: "pending",
-      stripe_payment_id: session.id,
+      paddle_transaction_id: transaction.data.id,
     })
 
-    return NextResponse.json({ url: session.url })
+    return NextResponse.json({ url: transaction.data.checkout.url })
   } catch (error) {
     console.error("[v0] Error creating checkout session:", error)
     return NextResponse.json({ error: "Failed to create checkout session" }, { status: 500 })

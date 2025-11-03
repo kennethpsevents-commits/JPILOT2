@@ -27,7 +27,7 @@ const PLANS = [
     id: "basic",
     name: "Basic",
     price: 19,
-    priceId: process.env.NEXT_PUBLIC_STRIPE_BASIC_PRICE_ID,
+    priceId: "pri_01k483wa89jeqjdf6b84bqzq9b", // Replace with your actual Paddle price ID
     description: "For active job seekers",
     icon: Zap,
     popular: true,
@@ -44,7 +44,7 @@ const PLANS = [
     id: "pro",
     name: "Pro",
     price: 49,
-    priceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID,
+    priceId: "pri_01k483wa89jeqjdf6b84bqzq9c", // Replace with your actual Paddle price ID
     description: "For serious professionals",
     icon: Crown,
     features: [
@@ -62,7 +62,7 @@ const PLANS = [
     id: "enterprise",
     name: "Enterprise",
     price: 99,
-    priceId: process.env.NEXT_PUBLIC_STRIPE_ENTERPRISE_PRICE_ID,
+    priceId: "pri_01k483wa89jeqjdf6b84bqzq9d", // Replace with your actual Paddle price ID
     description: "For executive-level searches",
     icon: Rocket,
     features: [

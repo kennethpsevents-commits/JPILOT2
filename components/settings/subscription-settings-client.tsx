@@ -3,9 +3,10 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Briefcase, Crown, Calendar, CreditCard } from "lucide-react"
+import { Briefcase, Crown, Calendar, CreditCard, AlertCircle } from "lucide-react"
 import Link from "next/link"
 import { format } from "date-fns"
+import { useState } from "react"
 
 interface SubscriptionSettingsClientProps {
   profile: any
@@ -13,6 +14,8 @@ interface SubscriptionSettingsClientProps {
 }
 
 export function SubscriptionSettingsClient({ profile, subscription }: SubscriptionSettingsClientProps) {
+  const [isCanceling, setIsCanceling] = useState(false)
+
   const getTierBadgeColor = (tier: string) => {
     switch (tier) {
       case "pro":
@@ -23,6 +26,42 @@ export function SubscriptionSettingsClient({ profile, subscription }: Subscripti
         return "bg-amber-500/10 text-amber-500"
       default:
         return "bg-gray-500/10 text-gray-500"
+    }
+  }
+
+  const handleCancelSubscription = async () => {
+    if (!subscription?.paddle_subscription_id) return
+
+    const confirmed = confirm(
+      "Are you sure you want to cancel your subscription? You'll continue to have access until the end of your billing period.",
+    )
+
+    if (!confirmed) return
+
+    setIsCanceling(true)
+
+    try {
+      const response = await fetch("/api/subscription/cancel", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          subscription_id: subscription.paddle_subscription_id,
+        }),
+      })
+
+      if (response.ok) {
+        alert("Your subscription has been canceled. You'll have access until the end of your billing period.")
+        window.location.reload()
+      } else {
+        throw new Error("Failed to cancel subscription")
+      }
+    } catch (error) {
+      console.error("[v0] Error canceling subscription:", error)
+      alert("Failed to cancel subscription. Please try again or contact support.")
+    } finally {
+      setIsCanceling(false)
     }
   }
 
@@ -129,7 +168,10 @@ export function SubscriptionSettingsClient({ profile, subscription }: Subscripti
           {subscription && subscription.status === "active" && (
             <Card className="border-destructive/50">
               <CardHeader>
-                <CardTitle>Cancel Subscription</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <AlertCircle className="h-5 w-5" />
+                  Cancel Subscription
+                </CardTitle>
                 <CardDescription>Cancel your subscription at any time</CardDescription>
               </CardHeader>
               <CardContent>
@@ -137,7 +179,9 @@ export function SubscriptionSettingsClient({ profile, subscription }: Subscripti
                   Your subscription will remain active until the end of your current billing period on{" "}
                   {format(new Date(subscription.current_period_end), "MMM dd, yyyy")}.
                 </p>
-                <Button variant="destructive">Cancel Subscription</Button>
+                <Button variant="destructive" onClick={handleCancelSubscription} disabled={isCanceling}>
+                  {isCanceling ? "Canceling..." : "Cancel Subscription"}
+                </Button>
               </CardContent>
             </Card>
           )}
