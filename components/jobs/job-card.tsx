@@ -50,7 +50,18 @@ export function JobCard({ job }: JobCardProps) {
 
   const formatSalary = () => {
     if (!job.salary_min || !job.salary_max) return null
-    return `${job.salary_currency} ${(job.salary_min / 1000).toFixed(0)}k - ${(job.salary_max / 1000).toFixed(0)}k`
+    const currency = job.salary_currency || "EUR"
+    return `${currency} ${(job.salary_min / 1000).toFixed(0)}k - ${(job.salary_max / 1000).toFixed(0)}k`
+  }
+
+  const formatPostedDate = () => {
+    if (!job.posted_date) return "Recently posted"
+    try {
+      return formatDistanceToNow(new Date(job.posted_date), { addSuffix: true })
+    } catch (error) {
+      console.error("[v0] Error formatting date:", error)
+      return "Recently posted"
+    }
   }
 
   return (
@@ -85,7 +96,7 @@ export function JobCard({ job }: JobCardProps) {
           </Badge>
           <Badge variant="secondary" className="flex items-center gap-1">
             <Briefcase className="h-3 w-3" />
-            {job.employment_type}
+            {job.type}
           </Badge>
           {formatSalary() && (
             <Badge variant="secondary" className="flex items-center gap-1">
@@ -95,7 +106,7 @@ export function JobCard({ job }: JobCardProps) {
           )}
           <Badge variant="secondary" className="flex items-center gap-1">
             <Clock className="h-3 w-3" />
-            {formatDistanceToNow(new Date(job.posted_at), { addSuffix: true })}
+            {formatPostedDate()}
           </Badge>
           {job.requires_screening && (
             <Badge variant="outline" className="flex items-center gap-1">
@@ -109,8 +120,8 @@ export function JobCard({ job }: JobCardProps) {
 
         <div className="flex items-center justify-between pt-2">
           <div className="flex gap-2">
-            <Badge variant="outline">{job.category}</Badge>
-            <Badge variant="outline">{job.experience_level}</Badge>
+            {job.category && <Badge variant="outline">{job.category}</Badge>}
+            {job.experience_level && <Badge variant="outline">{job.experience_level}</Badge>}
           </div>
           <Link href={`/jobs/${job.id}`}>
             <Button>View Details</Button>

@@ -1,7 +1,7 @@
 import { convertToModelMessages, streamText, tool, type UIMessage } from "ai"
 import { z } from "zod"
 import { createServerClient } from "@/lib/supabase/server"
-import { JOBGPT_SYSTEM_PROMPT } from "@/lib/ai/jobgpt-system"
+import { generateAdaptivePrompt, analyzeUserStyle } from "@/lib/ai/professor-scienta"
 import { detectLocationFromIP, getClientIP } from "@/lib/ai/location-detector"
 import { flowGuardian, checkRateLimit } from "@/lib/diagnostics/flow-guardian"
 
@@ -21,13 +21,17 @@ export async function POST(req: Request) {
     const clientIP = getClientIP(req)
     const rateLimitKey = `ai-chat:${user.id}:${clientIP}`
 
-    if (!checkRateLimit(rateLimitKey, 20, 60000)) {
+    if (!checkRateLimit(rateLimitKey, 50, 60000)) {
       return Response.json({ error: "Too many requests. Please try again in a minute." }, { status: 429 })
     }
 
     const { messages, conversationId }: { messages: UIMessage[]; conversationId?: string } = await req.json()
 
     const lastMessage = messages[messages.length - 1]?.content || ""
+
+    const userMessages = messages.filter((m) => m.role === "user").map((m) => m.content)
+    const userProfile = userMessages.length > 2 ? analyzeUserStyle(userMessages) : {}
+
     const aiContext = {
       messageCount: messages.length,
       lastMessages: messages.slice(-5).map((m) => m.content),
@@ -37,10 +41,8 @@ export async function POST(req: Request) {
 
     const guardianResult = await flowGuardian(aiContext, lastMessage)
 
-    // Log metrics for monitoring
     console.log("[v0] Flow Guardian metrics:", guardianResult.metrics)
 
-    // If handover is needed, return graceful message
     if (guardianResult.handover) {
       return Response.json({
         message: guardianResult.message,
@@ -49,13 +51,8 @@ export async function POST(req: Request) {
       })
     }
 
-    // Detect user location from IP
     const locationInfo = await detectLocationFromIP(clientIP)
-
-    // Get user profile for context
     const { data: profile } = await supabase.from("profiles").select("*").eq("id", user.id).single()
-
-    // Get user's recent applications for context
     const { data: applications } = await supabase
       .from("applications")
       .select("*, jobs(*)")
@@ -63,23 +60,24 @@ export async function POST(req: Request) {
       .order("applied_at", { ascending: false })
       .limit(5)
 
-    // Build context for AI
-    const userContext = {
-      location: locationInfo,
-      profile: profile || {},
-      recentApplications: applications || [],
-    }
+    const adaptivePrompt = generateAdaptivePrompt(userProfile, locationInfo)
 
     const result = streamText({
-      model: "openai/gpt-5",
-      system: `${JOBGPT_SYSTEM_PROMPT}
+      model: "openai/gpt-4o",
+      system: `${adaptivePrompt}
 
-User Context:
+USER CONTEXT:
 - Location: ${locationInfo.city ? `${locationInfo.city}, ` : ""}${locationInfo.country} (${locationInfo.country_code})
 - Currency: ${locationInfo.currency}
 - Language: ${locationInfo.language}
 - Profile: ${profile?.full_name || "Not set"}
+- Experience: ${profile?.experience_years || 0} years
+- Skills: ${profile?.skills?.join(", ") || "Not specified"}
 - Recent Applications: ${applications?.length || 0}
+
+CONVERSATION CONTEXT:
+- Total messages: ${messages.length}
+- User communication style: ${userProfile.communicationStyle || "collaborative"}
 
 Always respond in ${locationInfo.language === "en" ? "English" : `the user's language (${locationInfo.language})`}.
 Always format salaries in ${locationInfo.currency}.
@@ -87,7 +85,7 @@ Always consider the user's location when suggesting jobs or providing market ins
       messages: convertToModelMessages(messages),
       tools: {
         searchJobs: tool({
-          description: "Search for jobs based on criteria like title, location, salary, etc.",
+          description: "Search for jobs with semantic matching and compatibility scoring",
           inputSchema: z.object({
             query: z.string().optional().describe("Job title or keywords"),
             location: z.string().optional().describe("Job location"),
@@ -101,7 +99,7 @@ Always consider the user's location when suggesting jobs or providing market ins
               .select("*")
               .eq("status", "active")
               .order("posted_date", { ascending: false })
-              .limit(10)
+              .limit(20) // Increased limit for better matching
 
             if (query) {
               dbQuery = dbQuery.or(`title.ilike.%${query}%,description.ilike.%${query}%`)
@@ -130,10 +128,41 @@ Always consider the user's location when suggesting jobs or providing market ins
               return { jobs: [], count: 0, error: "Failed to search jobs" }
             }
 
+            const jobsWithScores =
+              jobs?.map((job) => {
+                let score = 70 // base score
+
+                // Match experience level
+                if (profile?.experience_years) {
+                  const expMatch = {
+                    entry: profile.experience_years <= 2,
+                    mid: profile.experience_years >= 2 && profile.experience_years <= 5,
+                    senior: profile.experience_years >= 5 && profile.experience_years <= 10,
+                    lead: profile.experience_years >= 8,
+                    executive: profile.experience_years >= 12,
+                  }
+                  if (expMatch[job.experience_level as keyof typeof expMatch]) score += 15
+                }
+
+                // Match skills
+                if (profile?.skills && job.requirements) {
+                  const skillMatches = profile.skills.filter((skill: string) =>
+                    job.requirements.some((req: string) => req.toLowerCase().includes(skill.toLowerCase())),
+                  ).length
+                  score += Math.min(skillMatches * 5, 15)
+                }
+
+                return { ...job, compatibilityScore: Math.min(score, 100) }
+              }) || []
+
+            // Sort by compatibility score
+            jobsWithScores.sort((a, b) => (b.compatibilityScore || 0) - (a.compatibilityScore || 0))
+
             return {
-              jobs: jobs || [],
-              count: jobs?.length || 0,
+              jobs: jobsWithScores,
+              count: jobsWithScores.length,
               location: location || locationInfo.country,
+              topMatches: jobsWithScores.filter((j) => (j.compatibilityScore || 0) >= 90).length,
             }
           },
         }),

@@ -17,22 +17,22 @@ export interface Job {
   company: string
   company_logo: string | null
   location: string
-  location_type: "onsite" | "remote" | "hybrid"
-  employment_type: "full-time" | "part-time" | "contract" | "internship"
+  type: string // Changed from employment_type to match DB
   salary_min: number | null
   salary_max: number | null
-  salary_currency: string
+  salary_currency?: string
   description: string
-  requirements: string[]
-  benefits: string[]
-  category: string
-  experience_level: "entry" | "mid" | "senior" | "lead" | "executive"
-  requires_screening: boolean
-  is_active: boolean
-  posted_at: string
-  expires_at: string | null
-  created_at: string
-  updated_at: string
+  requirements: string[] | string // Can be array or JSON string from DB
+  benefits: string[] | string // Can be array or JSON string from DB
+  category?: string
+  experience_level?: string
+  requires_screening?: boolean
+  status: string // Changed from is_active to match DB
+  posted_date: string // Changed from posted_at to match DB
+  deadline: string | null // Changed from expires_at to match DB
+  created_at?: string
+  updated_at?: string
+  embedding?: any
 }
 
 export interface Application {

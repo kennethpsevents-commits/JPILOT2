@@ -96,6 +96,17 @@ export function MainNav() {
           >
             Contact
           </Link>
+          <Link
+            href="/owner/login"
+            className={cn(
+              "text-sm font-medium transition-colors hover:text-primary-foreground",
+              isActive("/owner/login") || isActive("/owner/dashboard")
+                ? "text-primary-foreground"
+                : "text-primary-foreground/60",
+            )}
+          >
+            Owner
+          </Link>
         </nav>
 
         {/* Desktop Auth/User Menu */}
@@ -216,6 +227,20 @@ export function MainNav() {
               >
                 <Mail className="h-4 w-4" />
                 Contact
+              </Link>
+
+              <Link
+                href="/owner/login"
+                onClick={() => setIsOpen(false)}
+                className={cn(
+                  "flex items-center gap-2 text-sm font-medium p-2 rounded-md transition-colors",
+                  isActive("/owner/login") || isActive("/owner/dashboard")
+                    ? "bg-primary text-primary-foreground"
+                    : "hover:bg-muted",
+                )}
+              >
+                <User className="h-4 w-4" />
+                Owner
               </Link>
 
               {user && (

@@ -13,12 +13,14 @@ import {
   LogOut,
   Database,
   Activity,
+  FileText,
 } from "lucide-react"
 import { ConversationMonitor } from "./conversation-monitor"
 import { ErrorManager } from "./error-manager"
 import { SystemHealth } from "./system-health"
 import { UserManagement } from "./user-management"
 import MarketingDashboardClient from "@/components/admin/marketing-dashboard-client"
+import Link from "next/link"
 
 export function OwnerDashboardClient() {
   const [activeTab, setActiveTab] = useState("overview")
@@ -42,10 +44,24 @@ export function OwnerDashboardClient() {
               <p className="text-sm text-muted-foreground">Complete system control</p>
             </div>
           </div>
-          <Button variant="outline" onClick={handleLogout}>
-            <LogOut className="w-4 h-4 mr-2" />
-            Logout
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" asChild>
+              <Link href="/owner/sops">
+                <FileText className="w-4 h-4 mr-2" />
+                SOPs
+              </Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/owner/subscription-funnel">
+                <TrendingUp className="w-4 h-4 mr-2" />
+                Funnel
+              </Link>
+            </Button>
+            <Button variant="outline" onClick={handleLogout}>
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
       </header>
 

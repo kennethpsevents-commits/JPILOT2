@@ -1,124 +1,313 @@
 "use client"
-
-import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import type { Job } from "@/lib/types"
 import { JobCard } from "./job-card"
-import { JobFilters } from "./job-filters"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Search, SlidersHorizontal } from "lucide-react"
+import { Search, MapPin, Briefcase, DollarSign, Filter, X } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import Link from "next/link"
-import { Briefcase } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { createBrowserClient } from "@/lib/supabase/client"
+import { Loader2 } from "lucide-react"
 
 interface JobsClientProps {
   initialJobs: Job[]
+  userSubscription?: string
 }
 
-export function JobsClient({ initialJobs }: JobsClientProps) {
+export function JobsClient({ initialJobs, userSubscription = "free" }: JobsClientProps) {
+  const [jobs, setJobs] = useState<Job[]>(initialJobs)
   const [searchQuery, setSearchQuery] = useState("")
+  const [location, setLocation] = useState("")
+  const [category, setCategory] = useState("")
+  const [experienceLevel, setExperienceLevel] = useState("")
+  const [locationType, setLocationType] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
+  const [page, setPage] = useState(1)
+  const observerTarget = useRef(null)
+
   const router = useRouter()
   const searchParams = useSearchParams()
+  const supabase = createBrowserClient()
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    const params = new URLSearchParams(searchParams.toString())
-    if (searchQuery) {
-      params.set("query", searchQuery)
-    } else {
-      params.delete("query")
-    }
-    router.push(`/jobs?${params.toString()}`)
+  const jobLimits = {
+    free: 10,
+    basic: 50,
+    pro: 200,
+    enterprise: 999999,
   }
 
+  const maxJobs = jobLimits[userSubscription as keyof typeof jobLimits] || jobLimits.free
+
+  const loadMoreJobs = useCallback(async () => {
+    if (loading || !hasMore || jobs.length >= maxJobs) return
+
+    setLoading(true)
+    const pageSize = 20
+    const from = page * pageSize
+    const to = from + pageSize - 1
+
+    let query = supabase
+      .from("jobs")
+      .select("*")
+      .eq("status", "active")
+      .order("posted_date", { ascending: false })
+      .range(from, to)
+
+    // Apply filters
+    if (searchQuery) {
+      query = query.or(`title.ilike.%${searchQuery}%,company.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`)
+    }
+    if (location) query = query.ilike("location", `%${location}%`)
+    if (category) query = query.eq("category", category)
+    if (experienceLevel) query = query.eq("experience_level", experienceLevel)
+    if (locationType) query = query.eq("location_type", locationType)
+
+    const { data, error } = await query
+
+    if (!error && data) {
+      setJobs((prev) => [...prev, ...(data as Job[])])
+      setHasMore(data.length === pageSize)
+      setPage((prev) => prev + 1)
+    }
+
+    setLoading(false)
+  }, [
+    loading,
+    hasMore,
+    page,
+    searchQuery,
+    location,
+    category,
+    experienceLevel,
+    locationType,
+    jobs.length,
+    maxJobs,
+    supabase,
+  ])
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          loadMoreJobs()
+        }
+      },
+      { threshold: 0.1 },
+    )
+
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current)
+    }
+
+    return () => observer.disconnect()
+  }, [loadMoreJobs, hasMore, loading])
+
+  const handleSearch = async () => {
+    setLoading(true)
+    setPage(1)
+    setHasMore(true)
+
+    let query = supabase
+      .from("jobs")
+      .select("*")
+      .eq("status", "active")
+      .order("posted_date", { ascending: false })
+      .range(0, 19)
+
+    if (searchQuery) {
+      query = query.or(`title.ilike.%${searchQuery}%,company.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`)
+    }
+    if (location) query = query.ilike("location", `%${location}%`)
+    if (category) query = query.eq("category", category)
+    if (experienceLevel) query = query.eq("experience_level", experienceLevel)
+    if (locationType) query = query.eq("location_type", locationType)
+
+    const { data, error } = await query
+
+    if (!error && data) {
+      setJobs(data as Job[])
+      setHasMore(data.length === 20)
+    }
+
+    setLoading(false)
+  }
+
+  const clearFilters = () => {
+    setSearchQuery("")
+    setLocation("")
+    setCategory("")
+    setExperienceLevel("")
+    setLocationType("")
+    setJobs(initialJobs)
+    setPage(1)
+    setHasMore(true)
+  }
+
+  const activeFilters = [searchQuery, location, category, experienceLevel, locationType].filter(Boolean).length
+
   return (
-    <div className="flex flex-col min-h-svh">
-      {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <Briefcase className="h-6 w-6" />
-            <span className="text-xl font-bold">JobPilot</span>
-          </Link>
-          <nav className="flex items-center gap-4">
-            <Link href="/dashboard">
-              <Button variant="ghost">Dashboard</Button>
-            </Link>
-            <Link href="/auth/login">
-              <Button>Sign In</Button>
-            </Link>
-          </nav>
+    <div className="container py-8 max-w-7xl mx-auto">
+      <div className="mb-8 space-y-6">
+        <div>
+          <h1 className="text-4xl font-bold tracking-tight mb-2">Find your dream job</h1>
+          <p className="text-lg text-muted-foreground">
+            {jobs.length.toLocaleString()} jobs available across Europe
+            {userSubscription !== "free" && userSubscription !== "enterprise" && (
+              <span className="ml-2 text-sm">
+                (Viewing up to {maxJobs} with {userSubscription} plan)
+              </span>
+            )}
+          </p>
         </div>
-      </header>
 
-      <div className="container py-8">
         {/* Search Bar */}
-        <div className="flex flex-col gap-6 mb-8">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold tracking-tight">Find Your Next Job</h1>
-            <p className="text-muted-foreground">Browse {initialJobs.length} available positions</p>
-          </div>
-
-          <form onSubmit={handleSearch} className="flex gap-2">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search jobs, companies, or keywords..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            <Button type="submit">Search</Button>
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <SlidersHorizontal className="h-4 w-4" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <SheetHeader>
-                  <SheetTitle>Filters</SheetTitle>
-                </SheetHeader>
-                <JobFilters />
-              </SheetContent>
-            </Sheet>
-          </form>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="relative overflow-hidden rounded-2xl shadow-lg">
-            <img
-              src="/happy-diverse-customer-support-team-smiling-at-cam.jpg"
-              alt="Happy diverse customer support team"
-              className="w-full h-[300px] object-cover"
-              style={{ filter: "contrast(0.35)" }}
+        <div className="flex flex-col md:flex-row gap-3">
+          <div className="relative flex-1">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input
+              placeholder="Job title, keywords, or company"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              className="pl-12 h-14 text-base"
             />
           </div>
-          <div className="relative overflow-hidden rounded-2xl shadow-lg">
-            <img
-              src="/friendly-customer-service-representative-with-head.jpg"
-              alt="Friendly customer service representative"
-              className="w-full h-[300px] object-cover"
-              style={{ filter: "contrast(0.35)" }}
+          <div className="relative flex-1">
+            <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input
+              placeholder="City or country"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              className="pl-12 h-14 text-base"
             />
           </div>
+          <Button onClick={handleSearch} size="lg" className="h-14 px-8">
+            <Search className="h-5 w-5 mr-2" />
+            Search
+          </Button>
         </div>
 
-        {/* Job Listings */}
-        <div className="grid gap-4">
-          {initialJobs.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <p className="text-lg font-medium">No jobs found</p>
-              <p className="text-sm text-muted-foreground">Try adjusting your search or filters</p>
-            </div>
-          ) : (
-            initialJobs.map((job) => <JobCard key={job.id} job={job} />)
+        {/* Filters */}
+        <div className="flex flex-wrap gap-3">
+          <Select value={category} onValueChange={setCategory}>
+            <SelectTrigger className="w-[180px]">
+              <Briefcase className="h-4 w-4 mr-2" />
+              <SelectValue placeholder="Category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Engineering">Engineering</SelectItem>
+              <SelectItem value="Data Science">Data Science</SelectItem>
+              <SelectItem value="Design">Design</SelectItem>
+              <SelectItem value="Marketing">Marketing</SelectItem>
+              <SelectItem value="Sales">Sales</SelectItem>
+              <SelectItem value="Product">Product</SelectItem>
+              <SelectItem value="Operations">Operations</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={experienceLevel} onValueChange={setExperienceLevel}>
+            <SelectTrigger className="w-[180px]">
+              <DollarSign className="h-4 w-4 mr-2" />
+              <SelectValue placeholder="Experience" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="entry">Entry Level</SelectItem>
+              <SelectItem value="mid">Mid Level</SelectItem>
+              <SelectItem value="senior">Senior Level</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={locationType} onValueChange={setLocationType}>
+            <SelectTrigger className="w-[180px]">
+              <Filter className="h-4 w-4 mr-2" />
+              <SelectValue placeholder="Work Type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="remote">Remote</SelectItem>
+              <SelectItem value="hybrid">Hybrid</SelectItem>
+              <SelectItem value="onsite">On-site</SelectItem>
+            </SelectContent>
+          </Select>
+
+          {activeFilters > 0 && (
+            <Button variant="ghost" onClick={clearFilters}>
+              <X className="h-4 w-4 mr-2" />
+              Clear filters ({activeFilters})
+            </Button>
           )}
         </div>
+
+        {/* Active Filters */}
+        {activeFilters > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {searchQuery && (
+              <Badge variant="secondary" className="px-3 py-1">
+                Search: {searchQuery}
+                <X className="h-3 w-3 ml-2 cursor-pointer" onClick={() => setSearchQuery("")} />
+              </Badge>
+            )}
+            {location && (
+              <Badge variant="secondary" className="px-3 py-1">
+                Location: {location}
+                <X className="h-3 w-3 ml-2 cursor-pointer" onClick={() => setLocation("")} />
+              </Badge>
+            )}
+            {category && (
+              <Badge variant="secondary" className="px-3 py-1">
+                {category}
+                <X className="h-3 w-3 ml-2 cursor-pointer" onClick={() => setCategory("")} />
+              </Badge>
+            )}
+            {experienceLevel && (
+              <Badge variant="secondary" className="px-3 py-1">
+                {experienceLevel}
+                <X className="h-3 w-3 ml-2 cursor-pointer" onClick={() => setExperienceLevel("")} />
+              </Badge>
+            )}
+            {locationType && (
+              <Badge variant="secondary" className="px-3 py-1">
+                {locationType}
+                <X className="h-3 w-3 ml-2 cursor-pointer" onClick={() => setLocationType("")} />
+              </Badge>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Job Listings */}
+      <div className="space-y-4">
+        {jobs.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <p className="text-lg font-medium">No jobs found</p>
+            <p className="text-sm text-muted-foreground mt-2">Try adjusting your search or filters</p>
+          </div>
+        ) : (
+          <>
+            {jobs.slice(0, maxJobs).map((job) => (
+              <JobCard key={job.id} job={job} />
+            ))}
+
+            {jobs.length >= maxJobs && userSubscription !== "enterprise" && (
+              <div className="bg-muted/50 border-2 border-dashed rounded-lg p-8 text-center">
+                <h3 className="text-xl font-semibold mb-2">You've reached your plan limit</h3>
+                <p className="text-muted-foreground mb-4">Upgrade to see more jobs and unlock premium features</p>
+                <Button onClick={() => router.push("/pricing")} size="lg">
+                  Upgrade Plan
+                </Button>
+              </div>
+            )}
+
+            {hasMore && jobs.length < maxJobs && (
+              <div ref={observerTarget} className="flex justify-center py-8">
+                {loading && <Loader2 className="h-8 w-8 animate-spin text-primary" />}
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   )

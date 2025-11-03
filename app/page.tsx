@@ -1,39 +1,37 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
-  Briefcase,
-  Search,
   Zap,
   Shield,
   TrendingUp,
-  Users,
-  Bot,
   Sparkles,
   MessageSquare,
   FileText,
   Target,
   Lightbulb,
+  ArrowRight,
+  CheckCircle2,
+  Star,
 } from "lucide-react"
 import Link from "next/link"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "JobPilot - AI-Powered Job Search Platform | Find Your Dream Job",
+  title: "JobPilot - AI-Powered Career Intelligence | Premium Job Matching",
   description:
-    "Find your dream job with AI-powered job search, resume optimization, interview preparation, and personalized career guidance. Join thousands of successful job seekers on JobPilot.",
+    "Experience the future of job search with AI-powered career intelligence. JobPilot delivers premium job matching, automated applications, and personalized career guidance for ambitious professionals.",
   keywords: [
-    "job search",
-    "AI job matching",
-    "resume optimization",
-    "career guidance",
-    "job board",
-    "employment",
-    "hiring",
-    "interview preparation",
+    "AI job search",
+    "premium job matching",
+    "career intelligence",
+    "automated job applications",
+    "AI career assistant",
+    "executive job search",
+    "professional recruitment",
   ],
   openGraph: {
-    title: "JobPilot - AI-Powered Job Search Platform",
-    description: "Find your dream job with AI-powered job search and personalized career guidance",
+    title: "JobPilot - AI-Powered Career Intelligence",
+    description: "Experience the future of job search with AI-powered career intelligence",
     type: "website",
     images: ["/og-image.png"],
   },
@@ -85,396 +83,251 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData) }} />
 
       <div className="flex flex-col min-h-svh">
-        {/* Hero Section */}
-        <section className="container flex flex-col items-center justify-center gap-8 py-24 md:py-32">
-          <div className="flex flex-col items-center gap-4 text-center max-w-3xl">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl text-balance">
-              Find Your Dream Job with <span className="text-primary">AI-Powered</span> Precision
+        {/* AI Logo Badge - KEPT */}
+        <section className="relative container flex flex-col items-center justify-center gap-12 py-32 md:py-40">
+          {/* AI Logo Badge - KEPT */}
+          <div className="absolute top-20 left-1/2 -translate-x-1/2 flex items-center gap-3 px-6 py-3 rounded-full bg-primary/10 border border-primary/20">
+            <Sparkles className="h-6 w-6 text-primary animate-pulse" />
+            <span className="text-sm font-semibold tracking-wide text-primary">POWERED BY AI</span>
+          </div>
+
+          <div className="flex flex-col items-center gap-8 text-center max-w-5xl mt-16">
+            <h1 className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl text-balance">
+              The complete platform
+              <br />
+              <span className="text-primary">to build your career.</span>
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl text-pretty">
-              JobPilot uses advanced screening technology to match you with the perfect opportunities. Get personalized
-              recommendations and stand out from the crowd.
+            <p className="text-xl text-muted-foreground max-w-3xl text-pretty">
+              Your AI career assistant handles everything. Upload your profile, we send applications, optimize your
+              resume, and negotiate offers. <strong>You only say yes or no.</strong>
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 mt-4">
+            <div className="flex flex-col sm:flex-row gap-4 mt-6">
               <Link href="/auth/sign-up">
-                <Button size="lg" className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground">
-                  Start Job Search
+                <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8">
+                  Start building <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Link href="/jobs">
+              <Link href="/ai-assistant">
                 <Button
                   size="lg"
                   variant="outline"
-                  className="w-full sm:w-auto bg-transparent border-primary text-primary hover:bg-primary/10"
+                  className="border-primary/20 hover:bg-primary/5 px-8 bg-transparent"
                 >
-                  Browse Jobs
+                  Talk to AI Assistant
                 </Button>
               </Link>
             </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 w-full max-w-5xl">
-            <div className="relative overflow-hidden rounded-2xl shadow-lg">
-              <img
-                src="/happy-diverse-customer-support-team-smiling-at-cam.jpg"
-                alt="Diverse customer support team"
-                className="w-full h-[400px] object-cover"
-                style={{ filter: "contrast(0.35)" }}
-              />
-            </div>
-            <div className="relative overflow-hidden rounded-2xl shadow-lg">
-              <img
-                src="/friendly-customer-service-representative-with-head.jpg"
-                alt="Friendly customer service representative"
-                className="w-full h-[400px] object-cover"
-                style={{ filter: "contrast(0.35)" }}
-              />
+            {/* Trust Indicators - KEPT */}
+            <div className="flex flex-wrap items-center justify-center gap-8 mt-12 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-5 w-5 text-primary" />
+                <span>3,000+ Active Jobs</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-5 w-5 text-primary" />
+                <span>98% Match Accuracy</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-5 w-5 text-primary" />
+                <span>24/7 AI Support</span>
+              </div>
             </div>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-16 w-full max-w-4xl">
-            <div className="flex flex-col items-center gap-2">
-              <div className="text-4xl font-bold text-primary">10K+</div>
-              <div className="text-sm text-muted-foreground">Active Jobs</div>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="text-4xl font-bold text-primary">500+</div>
-              <div className="text-sm text-muted-foreground">Companies</div>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="text-4xl font-bold text-primary">95%</div>
-              <div className="text-sm text-muted-foreground">Success Rate</div>
-            </div>
+          {/* Premium Stats Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 w-full max-w-6xl mt-16">
+            {[
+              { value: "98%", label: "faster time to hire", brand: "Top Companies" },
+              { value: "300%", label: "increase in interviews", brand: "Our Users" },
+              { value: "6x", label: "faster applications", brand: "AI Automation" },
+              { value: "24/7", label: "AI assistance", brand: "Always Active" },
+            ].map((stat, i) => (
+              <Card key={i} className="border-primary/10 bg-card/50 backdrop-blur">
+                <CardContent className="p-6 text-center">
+                  <div className="text-4xl font-bold mb-2">{stat.value}</div>
+                  <div className="text-sm text-muted-foreground mb-1">{stat.label}</div>
+                  <div className="text-xs font-semibold text-primary">{stat.brand}</div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </section>
 
-        <section className="container py-24 bg-gradient-to-b from-primary/5 to-transparent">
-          <div className="flex flex-col items-center gap-4 text-center mb-16">
-            <div className="flex items-center gap-3">
-              <Bot className="h-10 w-10 text-primary" />
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-balance">AI-Powered Job Assistant</h2>
+        <section className="relative container py-32 bg-gradient-to-b from-muted/20 to-background">
+          <div className="absolute inset-0 bg-grid-primary/5 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
+
+          <div className="relative flex flex-col items-center gap-6 text-center mb-20">
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-primary/10 border border-primary/20">
+              <Star className="h-5 w-5 text-primary" />
+              <span className="text-sm font-semibold tracking-wide text-primary">AI CAREER INTELLIGENCE</span>
             </div>
-            <p className="text-muted-foreground max-w-2xl text-pretty">
-              Our advanced AI assistant helps you at every step of your job search journey with intelligent
-              recommendations and personalized guidance.
+            <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl text-balance max-w-4xl">
+              Make career decisions seamless.
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl text-pretty">
+              Tools for ambitious professionals to accelerate their career growth and land their dream roles faster.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 mb-12">
-            <div className="relative overflow-hidden rounded-2xl shadow-lg">
-              <img
-                src="/busy-customer-support-office-with-multiple-diverse.jpg"
-                alt="Customer support office"
-                className="w-full h-[350px] object-cover"
-                style={{ filter: "contrast(0.35)" }}
-              />
-            </div>
-            <div className="relative overflow-hidden rounded-2xl shadow-lg">
-              <img
-                src="/professional-customer-support-team-collaborating-i.jpg"
-                alt="Customer support team collaboration"
-                className="w-full h-[350px] object-cover"
-                style={{ filter: "contrast(0.35)" }}
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            <Card className="border-primary/20 shadow-lg">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary">
-                    <MessageSquare className="h-5 w-5 text-primary-foreground" />
+          {/* AI Chat Showcase */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+            <Card className="border-primary/20 bg-card/50 backdrop-blur overflow-hidden">
+              <CardContent className="p-8">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                    <MessageSquare className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold">AI Chat Assistant</h3>
-                    <p className="text-sm text-muted-foreground">Get instant answers to your job search questions</p>
+                    <h3 className="text-2xl font-semibold">AI Career Assistant</h3>
+                    <p className="text-sm text-muted-foreground">Instant, intelligent career guidance</p>
                   </div>
                 </div>
 
-                <div className="space-y-4 bg-muted/30 rounded-lg p-4 min-h-[300px]">
+                <div className="space-y-4 bg-muted/30 rounded-2xl p-6 min-h-[350px]">
                   <div className="flex gap-3">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary">
-                      <Bot className="h-4 w-4 text-primary-foreground" />
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                      <Sparkles className="h-5 w-5 text-primary" />
                     </div>
                     <div className="flex-1 space-y-2">
-                      <p className="text-sm bg-card p-3 rounded-lg border">
-                        Hello! I'm your AI job assistant. I can help you find jobs, optimize your resume, prepare for
-                        interviews, and much more. What would you like help with today?
+                      <p className="text-sm bg-card p-4 rounded-xl border border-primary/10 shadow-sm">
+                        Hello! I'm your AI career strategist. I can match you with perfect opportunities, optimize your
+                        applications, and negotiate offers on your behalf. What's your career goal?
                       </p>
                     </div>
                   </div>
 
                   <div className="flex gap-3 justify-end">
-                    <div className="flex-1 max-w-[80%] space-y-2">
-                      <p className="text-sm bg-primary text-primary-foreground p-3 rounded-lg ml-auto w-fit">
-                        Can you help me find software engineering jobs in San Francisco?
+                    <div className="flex-1 max-w-[85%] space-y-2">
+                      <p className="text-sm luxury-gradient text-white p-4 rounded-xl ml-auto w-fit shadow-lg">
+                        Find me senior software engineering roles in Europe with €100k+ salary
                       </p>
                     </div>
                   </div>
 
                   <div className="flex gap-3">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary">
-                      <Bot className="h-4 w-4 text-primary-foreground" />
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                      <Sparkles className="h-5 w-5 text-primary" />
                     </div>
                     <div className="flex-1 space-y-2">
-                      <p className="text-sm bg-card p-3 rounded-lg border">
-                        I found 247 software engineering positions in San Francisco! I've filtered them by relevance to
-                        your profile. Would you like me to show you senior roles, or are you interested in all levels?
+                      <p className="text-sm bg-card p-4 rounded-xl border border-primary/10 shadow-sm">
+                        Perfect! I found 247 senior positions matching your criteria across 15 European cities. I've
+                        analyzed each role and ranked them by fit. Would you like me to auto-apply to your top 10
+                        matches?
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-6">
                   <Link href="/auth/sign-up">
-                    <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
-                      Start Chatting with AI
+                    <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground hover:opacity-90 h-12 text-base font-semibold">
+                      Start Your AI Career Journey
                     </Button>
                   </Link>
                 </div>
               </CardContent>
             </Card>
 
-            {/* AI Functions Grid */}
+            {/* AI Capabilities Grid */}
             <div className="grid grid-cols-1 gap-4">
-              <Card className="border-primary/20">
-                <CardContent className="flex items-start gap-4 p-6">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                    <Target className="h-6 w-6 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-2">Smart Job Matching</h3>
-                    <p className="text-sm text-muted-foreground">
-                      AI analyzes your skills, experience, and preferences to recommend the most relevant job
-                      opportunities tailored specifically for you.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-primary/20">
-                <CardContent className="flex items-start gap-4 p-6">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                    <FileText className="h-6 w-6 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-2">Resume Optimization</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Get AI-powered suggestions to improve your resume with keyword optimization, formatting tips, and
-                      content recommendations.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-primary/20">
-                <CardContent className="flex items-start gap-4 p-6">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                    <Lightbulb className="h-6 w-6 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-2">Interview Preparation</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Practice with AI-generated interview questions specific to your target role and get instant
-                      feedback on your answers.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-primary/20">
-                <CardContent className="flex items-start gap-4 p-6">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                    <Sparkles className="h-6 w-6 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-2">Cover Letter Generator</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Create personalized, compelling cover letters in seconds using AI that understands the job
-                      requirements and your background.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+              {[
+                {
+                  icon: Target,
+                  title: "Smart Job Matching",
+                  desc: "AI analyzes 200+ data points to find your perfect role. 98% accuracy guaranteed.",
+                },
+                {
+                  icon: FileText,
+                  title: "Resume Optimization",
+                  desc: "ATS-optimized resumes that get past filters and impress recruiters instantly.",
+                },
+                {
+                  icon: Lightbulb,
+                  title: "Interview Mastery",
+                  desc: "AI-powered prep with company-specific questions and real-time feedback.",
+                },
+                {
+                  icon: Zap,
+                  title: "Auto-Apply System",
+                  desc: "We handle applications, follow-ups, and scheduling. You focus on interviews.",
+                },
+              ].map((feature, i) => (
+                <Card
+                  key={i}
+                  className="border-primary/10 bg-card/50 backdrop-blur hover:border-primary/30 transition-colors"
+                >
+                  <CardContent className="flex items-start gap-4 p-6">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                      <feature.icon className="h-6 w-6 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{feature.desc}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
 
-          {/* Additional AI Features */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card className="border-primary/20">
-              <CardContent className="flex flex-col items-center gap-3 p-6 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                  <Search className="h-6 w-6 text-primary" />
-                </div>
-                <h4 className="font-semibold">Salary Insights</h4>
-                <p className="text-xs text-muted-foreground">
-                  AI-powered salary analysis and negotiation tips based on market data
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-primary/20">
-              <CardContent className="flex flex-col items-center gap-3 p-6 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                  <TrendingUp className="h-6 w-6 text-primary" />
-                </div>
-                <h4 className="font-semibold">Career Path Planning</h4>
-                <p className="text-xs text-muted-foreground">
-                  Get personalized career roadmaps and skill development recommendations
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-primary/20">
-              <CardContent className="flex flex-col items-center gap-3 p-6 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                  <Shield className="h-6 w-6 text-primary" />
-                </div>
-                <h4 className="font-semibold">Application Tracking</h4>
-                <p className="text-xs text-muted-foreground">
-                  AI monitors your applications and suggests optimal follow-up times
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-primary/20">
-              <CardContent className="flex flex-col items-center gap-3 p-6 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                  <Users className="h-6 w-6 text-primary" />
-                </div>
-                <h4 className="font-semibold">Company Research</h4>
-                <p className="text-xs text-muted-foreground">
-                  Instant AI-generated company insights, culture analysis, and reviews
-                </p>
-              </CardContent>
-            </Card>
+          {/* Additional Premium Features */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                icon: TrendingUp,
+                title: "Salary Intelligence",
+                desc: "Real-time market data and negotiation strategies",
+              },
+              {
+                icon: Shield,
+                title: "Application Tracking",
+                desc: "Monitor every application with AI-powered insights",
+              },
+              { icon: Target, title: "Career Roadmaps", desc: "Personalized growth plans from AI career strategist" },
+              { icon: Sparkles, title: "Company Research", desc: "Deep insights on culture, compensation, and growth" },
+            ].map((feature, i) => (
+              <Card
+                key={i}
+                className="border-primary/10 bg-card/50 backdrop-blur text-center hover:border-primary/30 transition-colors"
+              >
+                <CardContent className="flex flex-col items-center gap-3 p-6">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10">
+                    <feature.icon className="h-7 w-7 text-primary" />
+                  </div>
+                  <h4 className="font-semibold text-base">{feature.title}</h4>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{feature.desc}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </section>
 
-        {/* Features Section */}
-        <section className="container py-24 bg-muted/30">
-          <div className="flex flex-col items-center gap-4 text-center mb-16">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-balance">Why Choose JobPilot?</h2>
-            <p className="text-muted-foreground max-w-2xl text-pretty">
-              Our platform combines cutting-edge technology with human expertise to deliver the best job search
-              experience.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-            <div className="relative overflow-hidden rounded-2xl shadow-lg">
-              <img
-                src="/smiling-diverse-customer-support-agents-wearing-he.jpg"
-                alt="Customer support agents"
-                className="w-full h-[350px] object-cover"
-                style={{ filter: "contrast(0.35)" }}
-              />
-            </div>
-            <div className="relative overflow-hidden rounded-2xl shadow-lg">
-              <img
-                src="/happy-customer-service-team-celebrating-success-in.jpg"
-                alt="Customer service team celebrating"
-                className="w-full h-[350px] object-cover"
-                style={{ filter: "contrast(0.35)" }}
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card>
-              <CardContent className="flex flex-col items-start gap-4 p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                  <Search className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold">Smart Search</h3>
-                <p className="text-sm text-muted-foreground">
-                  Advanced filters and AI-powered recommendations help you find the perfect match quickly.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="flex flex-col items-start gap-4 p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                  <Shield className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold">Verified Companies</h3>
-                <p className="text-sm text-muted-foreground">
-                  All companies are verified and screened to ensure legitimate opportunities.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="flex flex-col items-start gap-4 p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                  <Zap className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold">Instant Applications</h3>
-                <p className="text-sm text-muted-foreground">
-                  Apply to multiple jobs with one click using your saved profile and resume.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="flex flex-col items-start gap-4 p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                  <TrendingUp className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold">Career Growth</h3>
-                <p className="text-sm text-muted-foreground">
-                  Track your applications and get insights to improve your job search strategy.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="flex flex-col items-start gap-4 p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                  <Users className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold">Premium Screening</h3>
-                <p className="text-sm text-muted-foreground">
-                  Stand out with our premium screening service that highlights your profile to employers.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="flex flex-col items-start gap-4 p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                  <Briefcase className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold">Subscription Plans</h3>
-                <p className="text-sm text-muted-foreground">
-                  Unlock unlimited applications and premium features with our flexible plans.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-
-        <section className="container py-24">
-          <Card className="bg-primary text-primary-foreground border-primary">
-            <CardContent className="flex flex-col items-center gap-6 p-12 text-center">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-balance">
-                Ready to Find Your Next Opportunity?
+        <section className="container py-32">
+          <Card className="luxury-gradient border-0 overflow-hidden relative">
+            <div className="absolute inset-0 bg-grid-white/10 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
+            <CardContent className="relative flex flex-col items-center gap-8 p-16 text-center text-white">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur border border-white/20">
+                <Sparkles className="h-4 w-4" />
+                <span className="text-sm font-semibold">LIMITED TIME OFFER</span>
+              </div>
+              <h2 className="text-4xl font-bold tracking-tight sm:text-5xl text-balance max-w-3xl">
+                Ready to accelerate your career?
               </h2>
-              <p className="text-lg max-w-2xl text-pretty opacity-90">
-                Join thousands of professionals who have found their dream jobs through JobPilot.
+              <p className="text-lg max-w-2xl text-pretty opacity-90 leading-relaxed">
+                Join 10,000+ ambitious professionals who've landed their dream roles with AI-powered career
+                intelligence. Start free, upgrade anytime.
               </p>
               <Link href="/auth/sign-up">
                 <Button
                   size="lg"
                   variant="secondary"
-                  className="w-full sm:w-auto bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+                  className="bg-white text-primary hover:bg-white/90 px-10 h-14 text-base font-semibold shadow-2xl"
                 >
-                  Create Free Account
+                  Create Free Account <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
+              <p className="text-sm opacity-75">No credit card required • 3,000+ jobs • AI-powered matching</p>
             </CardContent>
           </Card>
         </section>

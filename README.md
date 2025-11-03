@@ -1,232 +1,252 @@
-# WeAreJobPilot - AI-gedreven job platform
+# JobPilot - AI-Powered Job Search Platform
 
-Een moderne, AI-gedreven job platform gebouwd met Next.js 15.2, React 19, Supabase en TailwindCSS.
-
-## 🚀 Features
-
-- **Buddy AI Onboarding**: Interactieve vragenlijst om gebruikersprofiel op te bouwen
-- **Supabase Authenticatie**: Veilige inlog en registratie
-- **Responsive Design**: Moderne UI met TailwindCSS en shadcn/ui
-- **Monorepo Setup**: Turborepo met gedeelde UI componenten
-- **CI/CD Pipeline**: Automatische tests en deployment naar Render
-- **E2E Testing**: Playwright tests voor kritieke flows
-
-## 🛠 Tech Stack
-
-- **Frontend**: Next.js 15.2, React 19, TypeScript
-- **Styling**: TailwindCSS, shadcn/ui
-- **Backend**: Supabase (Auth, Database, Edge Functions)
-- **Deployment**: Render
-- **Monorepo**: Turborepo, pnpm
-- **Testing**: Playwright, Jest
-- **CI/CD**: GitHub Actions
-
-## 📁 Project Structuur
-
-```
-wearejobpilot/
-├── apps/
-│   └── web/                 # Next.js applicatie
-├── packages/
-│   └── ui/                  # Gedeelde UI componenten
-├── supabase/
-│   └── schema.sql           # Database schema
-├── .github/
-│   └── workflows/
-│       └── ci.yml           # CI/CD pipeline
-├── .devcontainer/
-│   └── devcontainer.json    # VS Code devcontainer
-└── render.yaml              # Render deployment config
-```
+A world-class job aggregator platform with AI-powered job matching, resume optimization, and automated application tracking.
 
 ## 🚀 Quick Start
 
-### Vereisten
-
-- Node.js 22.x
-- pnpm 10.17.x
+### Prerequisites
+- Node.js 18+ 
 - Supabase account
+- Stripe/Paddle account (for payments)
+- SMTP email credentials
 
-### 1. Repository klonen
+### Installation
 
-```bash
-git clone https://github.com/your-username/wearejobpilot.git
-cd wearejobpilot
-```
+1. Clone and install dependencies:
+\`\`\`bash
+npm install
+\`\`\`
 
-### 2. Dependencies installeren
+2. Set up environment variables (see `.env.example`)
 
-```bash
-pnpm install
-```
+3. Run database migrations:
+\`\`\`bash
+# Run all SQL scripts in order from the scripts/ folder
+# Execute them in your Supabase SQL editor
+\`\`\`
 
-### 3. Environment variabelen
+4. Seed 3000 realistic jobs:
+\`\`\`bash
+npm run seed-jobs
+\`\`\`
 
-Kopieer `env.example` naar `.env.local` en vul je Supabase credentials in:
+5. Start development server:
+\`\`\`bash
+npm run dev
+\`\`\`
 
-```bash
-cp env.example .env.local
-```
+## 🔐 Owner Dashboard Access
 
-Vul de volgende variabelen in:
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `SUPABASE_SERVICE_ROLE_KEY`
+### How to Access:
 
-### 4. Database setup
+1. **Via Navigation**: Click "Owner" in the top navigation bar
+2. **Direct URL**: Navigate to `/owner/login`
+3. **Password**: `Wearejobpilot_Psevents_in`
 
-Voer het Supabase schema uit in je Supabase project:
+### Owner Dashboard Features:
+- **Main Dashboard** (`/owner/dashboard`): System overview, user stats, error logs
+- **Conversation Monitor**: View all AI chat conversations with users
+- **Error Manager**: Track and resolve website errors
+- **System Health**: Monitor performance metrics
+- **User Management**: View all registered users
+- **Marketing Funnel** (`/owner/subscription-funnel`): Track subscription progress
+- **SOPs** (`/owner/sops`): Manage Standard Operating Procedures
 
-```sql
--- Kopieer en voer uit: supabase/schema.sql
-```
+## 📊 Seeding 3000 Dummy Jobs
 
-### 5. Development server starten
+The platform includes a sophisticated job seeding system that generates 3000+ unique, realistic job listings across Europe.
 
-```bash
-pnpm dev
-```
+### Running the Job Seeder:
 
-De applicatie is nu beschikbaar op [http://localhost:3000](http://localhost:3000)
+\`\`\`bash
+npm run seed-jobs
+\`\`\`
 
-## 🧪 Testing
+### What Gets Generated:
+- **3000+ unique jobs** across 10 categories
+- **30 European cities** with proper salary adjustments
+- **Realistic job descriptions** for each position
+- **No duplicates** - each job is unique
+- **Proper requirements** based on experience level
+- **Benefits packages** (5-7 benefits per job)
+- **Salary ranges** adjusted by country and experience
 
-### Unit tests
+### Job Categories:
+- Engineering (20 roles)
+- Data Science (10 roles)
+- Design (10 roles)
+- Marketing (10 roles)
+- Sales (9 roles)
+- Product (9 roles)
+- Operations (9 roles)
+- Customer Support (6 roles)
+- Finance (8 roles)
+- Human Resources (7 roles)
 
-```bash
-pnpm test
-```
+## 📧 Email Integration
 
-### E2E tests
+### Setup SMTP:
 
-```bash
-pnpm test:e2e
-```
+Add these environment variables:
 
-### Linting en type checking
+\`\`\`env
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+\`\`\`
 
-```bash
-pnpm lint
-pnpm typecheck
-```
+### Features:
+- **Automated sending** with retry logic (3 attempts with exponential backoff)
+- **Email templates** with variable substitution
+- **Email logging** - track all sent/received emails
+- **Delivery tracking** - monitor email status
+- **DLQ (Dead Letter Queue)** for failed emails
+
+### API Endpoints:
+
+**Send Email:**
+\`\`\`typescript
+POST /api/email/send
+{
+  "to": "user@example.com",
+  "subject": "Welcome to JobPilot",
+  "html": "<p>Welcome!</p>",
+  "templateId": "optional-template-id",
+  "variables": { "firstName": "John" }
+}
+\`\`\`
+
+## 🎯 Key Features
+
+### For Job Seekers:
+- **AI Job Matching** - Smart recommendations based on skills and preferences
+- **Resume Optimization** - AI-powered suggestions
+- **Cover Letter Generator** - Personalized cover letters
+- **Interview Preparation** - Practice with AI
+- **Application Tracking** - Monitor all applications
+- **Salary Insights** - Market data and negotiation tips
+- **Career Path Planning** - Personalized roadmaps
+
+### For Owners:
+- **Real-time Monitoring** - Track all system activity
+- **Conversation Logs** - View all AI interactions
+- **Error Management** - Identify and fix issues quickly
+- **Marketing Analytics** - Track subscription funnel
+- **SOPs Management** - Document procedures
+- **Email Tracking** - Monitor all communications
+
+## 🔒 Security Features
+
+- **Row Level Security (RLS)** on all database tables
+- **CSRF Protection** via middleware
+- **XSS Prevention** with proper sanitization
+- **Rate Limiting** on API routes
+- **Secure Headers** (CSP, HSTS, etc.)
+- **Environment Variable Protection**
+- **Owner Authentication** with session management
+
+## 📈 SEO Optimization
+
+- **Dynamic Meta Tags** on all pages
+- **Structured Data (JSON-LD)** for search engines
+- **Sitemap.xml** auto-generated
+- **Robots.txt** configured
+- **Open Graph Tags** for social sharing
+- **Canonical URLs** to prevent duplicates
+- **Image Alt Text** for accessibility
+
+## 🎨 Design System
+
+- **Soft Green Theme** with dark green accents
+- **Responsive Design** - Mobile-first approach
+- **Accessibility** - WCAG 2.1 AA compliant
+- **Dark Mode Support** (optional)
+- **Consistent Typography** - 2 font families max
+- **Design Tokens** in globals.css
 
 ## 🚀 Deployment
 
-### Render Deployment
+### Vercel (Recommended):
 
-1. Verbind je GitHub repository met Render
-2. Configureer de environment variabelen in Render dashboard
-3. Deploy automatisch via GitHub Actions
+1. Connect your GitHub repository
+2. Add environment variables in Vercel dashboard
+3. Deploy!
 
-### Environment Variabelen voor Productie
+### Environment Variables Needed:
 
-```env
-NEXT_PUBLIC_SUPABASE_URL=your_production_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_production_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_production_service_role_key
-NEXT_PUBLIC_APP_URL=https://your-domain.com
-```
+\`\`\`env
+# Supabase
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL=
 
-## 📱 Features Overzicht
+# Payments (Paddle)
+PADDLE_API_KEY=
+PADDLE_WEBHOOK_SECRET=
+PADDLE_ENVIRONMENT=sandbox
 
-### Buddy AI Onboarding
-- 5 interactieve vragen over carrière voorkeuren
-- Progress bar en conversational UI
-- Lokale opslag van antwoorden
+# Email
+EMAIL_HOST=
+EMAIL_PORT=
+EMAIL_USER=
+EMAIL_PASS=
 
-### Authenticatie
-- Supabase Auth met email/wachtwoord
-- Automatische redirects na login/signup
-- Protected routes met middleware
+# AI (Optional - uses Vercel AI Gateway by default)
+OPENAI_API_KEY=
 
-### Job Search
-- Dummy dataset met 8 voorbeeld vacatures
-- Locked content achter signup wall
-- Responsive job cards
+# Base URL
+NEXT_PUBLIC_BASE_URL=https://your-domain.com
+\`\`\`
 
-### Dashboard
-- Persoonlijke begroeting
-- Opgeslagen vacatures (dummy data)
-- Quick stats en recente activiteit
+## 📝 Standard Operating Procedures (SOPs)
 
-## 🔧 Development
+Access SOPs at `/owner/sops` after logging into the owner dashboard.
 
-### Monorepo Commands
+### SOP Categories:
+- **Operations** - Day-to-day procedures
+- **Marketing** - Campaign management
+- **Customer Support** - Support workflows
+- **Technical** - Development procedures
+- **Legal** - Compliance and policies
 
-```bash
-# Alle packages
-pnpm build          # Build alle packages
-pnpm dev            # Start development servers
-pnpm lint           # Lint alle packages
-pnpm typecheck      # Type check alle packages
-pnpm test           # Run alle tests
-pnpm clean          # Clean build artifacts
+## 🐛 Troubleshooting
 
-# Specifieke package
-pnpm --filter web dev
-pnpm --filter ui build
-```
+### Jobs Not Showing:
+1. Check if jobs were seeded: `npm run seed-jobs`
+2. Verify database connection in Supabase
+3. Check RLS policies are enabled
 
-### Code Style
+### Owner Dashboard Not Accessible:
+1. Verify password: `Wearejobpilot_Psevents_in`
+2. Check cookies are enabled
+3. Try clearing browser cache
 
-- Prettier voor formatting
-- ESLint voor linting
-- TypeScript strict mode
-- TailwindCSS voor styling
+### Email Not Sending:
+1. Verify SMTP credentials
+2. Check email logs in database
+3. Review error messages in owner dashboard
 
-## 📊 Database Schema
+## 📚 Documentation
 
-### Tabellen
+- **Technical Specification**: See `docs/TECHNICAL_SPECIFICATION.md`
+- **API Documentation**: See `docs/API.md` (coming soon)
+- **User Guide**: See `docs/USER_GUIDE.md` (coming soon)
 
-- `users` - Gebruikersprofielen (extends Supabase auth)
-- `answers` - Onboarding antwoorden
-- `jobs` - Vacature data
-- `saved_jobs` - Opgeslagen vacatures
-- `applications` - Sollicitaties
+## 🤝 Support
 
-### Row Level Security
-
-Alle tabellen hebben RLS policies:
-- Gebruikers kunnen alleen hun eigen data zien/bewerken
-- Jobs zijn leesbaar voor alle geauthenticeerde gebruikers
-- Admin rechten voor toekomstige uitbreidingen
-
-## 🚀 Roadmap
-
-### Phase 1 (MVP) ✅
-- [x] Buddy AI onboarding
-- [x] Supabase authenticatie
-- [x] Basic job search
-- [x] Responsive design
-
-### Phase 2 (Growth)
-- [ ] Echte job data integratie
-- [ ] CV/cover letter tools
-- [ ] Advanced search filters
-- [ ] Email notificaties
-
-### Phase 3 (Scale)
-- [ ] Recruiter dashboard
-- [ ] Payment integratie (Stripe)
-- [ ] Analytics dashboard
-- [ ] Mobile app
-
-## 🤝 Contributing
-
-1. Fork de repository
-2. Maak een feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit je changes (`git commit -m 'Add amazing feature'`)
-4. Push naar de branch (`git push origin feature/amazing-feature`)
-5. Open een Pull Request
+For issues or questions:
+- Email: support@jobpilot.com
+- Owner Dashboard: Monitor errors in real-time
+- GitHub Issues: [Create an issue](https://github.com/your-repo/issues)
 
 ## 📄 License
 
-Dit project is gelicenseerd onder de MIT License - zie [LICENSE](LICENSE) voor details.
-
-## 📞 Support
-
-Voor vragen of support, open een issue in de GitHub repository.
+Proprietary - All rights reserved
 
 ---
 
-Gebouwd met ❤️ door het WeAreJobPilot team
+Built with ❤️ using Next.js 16, React 19, Supabase, and AI SDK
