@@ -10,47 +10,57 @@ export function Footer() {
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
               <Briefcase className="h-6 w-6 text-primary" />
-              <span className="text-xl font-bold">JobPilot</span>
+              <span className="text-xl font-bold">WeAreJobPilot</span>
             </Link>
             <p className="text-sm text-muted-foreground">
-              AI-powered job search platform helping you find your dream career.
+              AI-powered job search platform helping you find your dream career in Europe.
             </p>
             <div className="flex gap-4">
-              <Link
-                href="https://facebook.com"
+              <a
+                href="https://facebook.com/wearejobpilot"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Follow us on Facebook"
               >
                 <Facebook className="h-5 w-5" />
-              </Link>
-              <Link
-                href="https://twitter.com"
+              </a>
+              <a
+                href="https://twitter.com/wearejobpilot"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Follow us on Twitter"
               >
                 <Twitter className="h-5 w-5" />
-              </Link>
-              <Link
-                href="https://linkedin.com"
+              </a>
+              <a
+                href="https://linkedin.com/company/wearejobpilot"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Follow us on LinkedIn"
               >
                 <Linkedin className="h-5 w-5" />
-              </Link>
-              <Link
-                href="https://instagram.com"
+              </a>
+              <a
+                href="https://instagram.com/wearejobpilot"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Follow us on Instagram"
               >
                 <Instagram className="h-5 w-5" />
-              </Link>
-              <Link
-                href="https://youtube.com"
+              </a>
+              <a
+                href="https://youtube.com/wearejobpilot"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Subscribe on YouTube"
               >
                 <Youtube className="h-5 w-5" />
-              </Link>
+              </a>
             </div>
           </div>
 
@@ -109,15 +119,10 @@ export function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <a
-                  href="mailto:support@jobpilot.com"
+                  href="mailto:Info@wearejobpilot.com"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  support@jobpilot.com
-                </a>
-              </li>
-              <li>
-                <a href="tel:+1234567890" className="text-muted-foreground hover:text-primary transition-colors">
-                  +1 (234) 567-890
+                  Info@wearejobpilot.com
                 </a>
               </li>
               <li className="text-muted-foreground text-xs pt-2">Available 24/7</li>
@@ -126,7 +131,7 @@ export function Footer() {
         </div>
 
         <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} JobPilot. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} WeAreJobPilot. All rights reserved.</p>
         </div>
       </div>
     </footer>

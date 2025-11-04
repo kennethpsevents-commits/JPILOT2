@@ -17,23 +17,64 @@ import Link from "next/link"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "JobPilot - AI-Powered Career Intelligence | Premium Job Matching",
+  title: "AI Job Search - WeAreJobPilot | Apply in 1 Tap",
   description:
-    "Experience the future of job search with AI-powered career intelligence. JobPilot delivers premium job matching, automated applications, and personalized career guidance for ambitious professionals.",
+    "AI-powered European job aggregator. One-tap applications with automatic CV optimization, legal compliance checks, and salary intelligence. Find your dream job stress-free.",
   keywords: [
     "AI job search",
-    "premium job matching",
-    "career intelligence",
-    "automated job applications",
+    "European jobs",
+    "automatic applications",
+    "CV optimization",
+    "job aggregator",
+    "one-tap apply",
+    "stress-free job search",
     "AI career assistant",
-    "executive job search",
-    "professional recruitment",
   ],
+  authors: [{ name: "WeAreJobPilot Team" }],
+  creator: "WeAreJobPilot",
+  publisher: "WeAreJobPilot",
+  alternates: {
+    canonical: "https://www.wearejobpilot.com",
+  },
   openGraph: {
-    title: "JobPilot - AI-Powered Career Intelligence",
-    description: "Experience the future of job search with AI-powered career intelligence",
+    title: "AI Job Search - WeAreJobPilot",
+    description: "AI-powered job search for Europe. Apply in 1 tap.",
+    url: "https://www.wearejobpilot.com",
+    siteName: "WeAreJobPilot",
+    images: [
+      {
+        url: "https://www.wearejobpilot.com/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "WeAreJobPilot - Stress-free job searching",
+      },
+    ],
+    locale: "en_US",
     type: "website",
-    images: ["/og-image.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AI Job Search - WeAreJobPilot",
+    description: "AI-powered job search for Europe. Apply in 1 tap.",
+    creator: "@wearejobpilot",
+    images: ["https://www.wearejobpilot.com/twitter-image.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
   },
 }
 
@@ -41,23 +82,23 @@ export default function HomePage() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "JobPilot",
-    description: "AI-Powered Job Search Platform",
-    url: process.env.NEXT_PUBLIC_BASE_URL || "https://jobpilot.com",
+    name: "WeAreJobPilot",
+    description: "AI-Powered Job Search Platform for Europe",
+    url: "https://www.wearejobpilot.com",
     potentialAction: {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: `${process.env.NEXT_PUBLIC_BASE_URL || "https://jobpilot.com"}/jobs?q={search_term_string}`,
+        urlTemplate: "https://www.wearejobpilot.com/jobs?q={search_term_string}",
       },
       "query-input": "required name=search_term_string",
     },
     publisher: {
       "@type": "Organization",
-      name: "JobPilot",
+      name: "WeAreJobPilot",
       logo: {
         "@type": "ImageObject",
-        url: `${process.env.NEXT_PUBLIC_BASE_URL || "https://jobpilot.com"}/logo.png`,
+        url: "https://www.wearejobpilot.com/logo.png",
       },
     },
   }
@@ -65,15 +106,20 @@ export default function HomePage() {
   const organizationData = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "JobPilot",
-    url: process.env.NEXT_PUBLIC_BASE_URL || "https://jobpilot.com",
-    logo: `${process.env.NEXT_PUBLIC_BASE_URL || "https://jobpilot.com"}/logo.png`,
-    description: "AI-Powered Job Search Platform helping professionals find their dream jobs",
-    sameAs: ["https://twitter.com/jobpilot", "https://linkedin.com/company/jobpilot", "https://facebook.com/jobpilot"],
+    name: "WeAreJobPilot",
+    url: "https://www.wearejobpilot.com",
+    logo: "https://www.wearejobpilot.com/logo.png",
+    description: "AI-Powered Job Search Platform helping European professionals find their dream jobs",
+    email: "Info@wearejobpilot.com",
+    sameAs: [
+      "https://twitter.com/wearejobpilot",
+      "https://linkedin.com/company/wearejobpilot",
+      "https://facebook.com/wearejobpilot",
+    ],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "Customer Support",
-      email: "support@jobpilot.com",
+      email: "Info@wearejobpilot.com",
     },
   }
 
@@ -82,10 +128,8 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData) }} />
 
-      <div className="flex flex-col min-h-svh">
-        {/* AI Logo Badge - KEPT */}
+      <main className="flex flex-col min-h-svh">
         <section className="relative container flex flex-col items-center justify-center gap-12 py-32 md:py-40">
-          {/* AI Logo Badge - KEPT */}
           <div className="absolute top-20 left-1/2 -translate-x-1/2 flex items-center gap-3 px-6 py-3 rounded-full bg-primary/10 border border-primary/20">
             <Sparkles className="h-6 w-6 text-primary animate-pulse" />
             <span className="text-sm font-semibold tracking-wide text-primary">POWERED BY AI</span>
@@ -118,7 +162,6 @@ export default function HomePage() {
               </Link>
             </div>
 
-            {/* Trust Indicators - KEPT */}
             <div className="flex flex-wrap items-center justify-center gap-8 mt-12 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5 text-primary" />
@@ -135,7 +178,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Premium Stats Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 w-full max-w-6xl mt-16">
             {[
               { value: "98%", label: "faster time to hire", brand: "Top Companies" },
@@ -170,7 +212,6 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* AI Chat Showcase */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
             <Card className="border-primary/20 bg-card/50 backdrop-blur overflow-hidden">
               <CardContent className="p-8">
@@ -229,7 +270,6 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            {/* AI Capabilities Grid */}
             <div className="grid grid-cols-1 gap-4">
               {[
                 {
@@ -271,7 +311,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Additional Premium Features */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
@@ -331,7 +370,7 @@ export default function HomePage() {
             </CardContent>
           </Card>
         </section>
-      </div>
+      </main>
     </>
   )
 }

@@ -12,26 +12,26 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://jobpilot.com"),
+  metadataBase: new URL("https://www.wearejobpilot.com"),
   title: {
-    default: "JobPilot - AI-Powered Job Search Platform",
-    template: "%s | JobPilot",
+    default: "WeAreJobPilot - AI-Powered Job Search Platform",
+    template: "%s | WeAreJobPilot",
   },
   description:
-    "Find your dream job with AI-powered job search, resume optimization, interview preparation, and personalized career guidance. Join thousands of successful job seekers.",
+    "AI-powered European job aggregator. One-tap applications with automatic CV optimization, legal compliance checks, and salary intelligence. Find your dream job stress-free.",
   keywords: [
-    "job search",
-    "career",
-    "AI job matching",
-    "resume optimization",
-    "interview preparation",
-    "job board",
+    "AI job search",
+    "European jobs",
+    "automatic applications",
+    "CV optimization",
+    "job aggregator",
+    "career platform",
     "employment",
     "hiring",
   ],
-  authors: [{ name: "JobPilot Team" }],
-  creator: "JobPilot",
-  publisher: "JobPilot",
+  authors: [{ name: "WeAreJobPilot Team" }],
+  creator: "WeAreJobPilot",
+  publisher: "WeAreJobPilot",
   formatDetection: {
     email: false,
     address: false,
@@ -40,26 +40,25 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: process.env.NEXT_PUBLIC_BASE_URL || "https://jobpilot.com",
-    title: "JobPilot - AI-Powered Job Search Platform",
-    description:
-      "Find your dream job with AI-powered job search, resume optimization, and personalized career guidance",
-    siteName: "JobPilot",
+    url: "https://www.wearejobpilot.com",
+    title: "WeAreJobPilot - AI-Powered Job Search Platform",
+    description: "AI-powered European job aggregator with one-tap applications",
+    siteName: "WeAreJobPilot",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://www.wearejobpilot.com/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "JobPilot - AI-Powered Job Search",
+        alt: "WeAreJobPilot - AI-Powered Job Search",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "JobPilot - AI-Powered Job Search Platform",
-    description: "Find your dream job with AI-powered job search and career guidance",
-    images: ["/og-image.png"],
-    creator: "@jobpilot",
+    title: "WeAreJobPilot - AI-Powered Job Search Platform",
+    description: "AI-powered European job aggregator with one-tap applications",
+    images: ["https://www.wearejobpilot.com/twitter-image.jpg"],
+    creator: "@wearejobpilot",
   },
   robots: {
     index: true,
@@ -82,9 +81,8 @@ export const metadata: Metadata = {
   },
   verification: {
     google: "google-site-verification-code",
-    yandex: "yandex-verification-code",
   },
-  generator: "v0.app",
+    generator: 'v0.app'
 }
 
 export default function RootLayout({
@@ -96,7 +94,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`font-sans antialiased`}>
         <MainNav />
-        <main className="min-h-[calc(100vh-4rem)]">{children}</main>
+        {children}
         <Footer />
         <CookieConsent />
         <Analytics />

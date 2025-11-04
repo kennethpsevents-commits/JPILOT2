@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { MapPin, DollarSign, Target, Bookmark, Heart, Clock, Users, Briefcase, Home, Zap } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
@@ -99,17 +100,25 @@ export function JobCard({
   }
 
   return (
-    <Card className="group relative h-full overflow-hidden rounded-xl border border-border/40 bg-card shadow-sm transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:scale-[1.02]">
+    <Card
+      className="group relative h-full overflow-hidden rounded-xl border border-border/40 bg-card shadow-sm transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:scale-[1.02]"
+      role="article"
+      aria-label={`Job card for ${job.title} at ${job.company}`}
+    >
       <CardContent className="flex h-full flex-col gap-4 p-6">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-start gap-4 flex-1 min-w-0">
-            {/* Company Logo - 80x80 as per spec */}
             {job.company_logo ? (
-              <img
-                src={job.company_logo || "/placeholder.svg?height=80&width=80"}
-                alt={`${job.company} logo`}
+              <Image
+                src={job.company_logo || "/placeholder.svg"}
+                alt={`${job.company} company logo`}
+                width={80}
+                height={80}
+                loading="lazy"
                 className="h-20 w-20 flex-shrink-0 rounded-lg border border-border object-cover"
-                crossOrigin="anonymous"
+                onError={(e) => {
+                  e.currentTarget.src = "/placeholder.svg?height=80&width=80"
+                }}
               />
             ) : (
               <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-lg border border-border bg-primary/10 text-2xl font-bold text-primary">
@@ -119,9 +128,9 @@ export function JobCard({
 
             <div className="min-w-0 flex-1">
               <Link href={`/jobs/${job.id}`} className="group/title block">
-                <h3 className="text-xl font-semibold leading-tight text-foreground transition-colors group-hover/title:text-primary line-clamp-2">
+                <h2 className="text-xl font-semibold leading-tight text-foreground transition-colors group-hover/title:text-primary line-clamp-2">
                   {job.title}
-                </h3>
+                </h2>
               </Link>
               <Link
                 href={`/companies/${job.company.toLowerCase().replace(/\s+/g, "-")}`}
