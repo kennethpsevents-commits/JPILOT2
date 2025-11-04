@@ -27,6 +27,7 @@ export function JobsClient({ initialJobs, userSubscription = "free" }: JobsClien
   const [hasMore, setHasMore] = useState(true)
   const [page, setPage] = useState(1)
   const observerTarget = useRef(null)
+  const [showMatchScore, setShowMatchScore] = useState(false) // New state for match score
 
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -144,17 +145,18 @@ export function JobsClient({ initialJobs, userSubscription = "free" }: JobsClien
     setJobs(initialJobs)
     setPage(1)
     setHasMore(true)
+    setShowMatchScore(false) // Reset match score on clear filters
   }
 
   const activeFilters = [searchQuery, location, category, experienceLevel, locationType].filter(Boolean).length
 
   return (
-    <div className="container mx-auto max-w-7xl py-8">
+    <div className="container mx-auto max-w-7xl py-8 px-4">
       <div className="mb-8 space-y-6">
         <div>
           <h1 className="text-4xl font-bold tracking-tight mb-2">Find your dream job</h1>
           <p className="text-lg text-muted-foreground">
-            {jobs.length.toLocaleString()} jobs available across Europe
+            Showing {jobs.length.toLocaleString()} jobs • {showMatchScore ? "94% average match" : ""}
             {userSubscription !== "free" && userSubscription !== "enterprise" && (
               <span className="ml-2 text-sm">
                 (Viewing up to {maxJobs} with {userSubscription} plan)
@@ -279,7 +281,7 @@ export function JobsClient({ initialJobs, userSubscription = "free" }: JobsClien
       </div>
 
       {/* Job Listings */}
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {jobs.length === 0 ? (
           <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
             <p className="text-lg font-medium">No jobs found</p>
