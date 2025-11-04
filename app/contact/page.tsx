@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Mail, Phone, MapPin } from "lucide-react"
+import Image from "next/image"
 
 export const metadata: Metadata = {
   title: "Contact Us | JobPilot",
@@ -13,7 +14,18 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="container max-w-6xl py-12">
+    <div className="container max-w-6xl py-12 relative">
+      <div className="absolute right-0 top-0 hidden lg:block w-64 h-64 rounded-2xl overflow-hidden shadow-xl">
+        <Image
+          src="/friendly-customer-support-representative-with-head.jpg"
+          alt="Customer support representative"
+          width={256}
+          height={256}
+          className="object-cover"
+          style={{ filter: "contrast(0.6)" }}
+        />
+      </div>
+
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-foreground mb-4">Contact Us</h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -111,6 +123,17 @@ export default function ContactPage() {
             </CardContent>
           </Card>
         </div>
+      </div>
+
+      <div className="mt-16 w-full h-48 rounded-2xl overflow-hidden shadow-2xl">
+        <Image
+          src="/diverse-customer-support-team-with-headsets-workin.jpg"
+          alt="Our support team ready to help"
+          width={1152}
+          height={192}
+          className="object-cover w-full h-full"
+          style={{ filter: "contrast(0.6)" }}
+        />
       </div>
     </div>
   )

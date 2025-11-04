@@ -14,6 +14,7 @@ import {
   Star,
 } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -130,6 +131,8 @@ export default function HomePage() {
 
       <main className="flex flex-col min-h-svh">
         <section className="relative container flex flex-col items-center justify-center gap-12 py-32 md:py-40">
+          
+
           <div className="absolute top-20 left-1/2 -translate-x-1/2 flex items-center gap-3 px-6 py-3 rounded-full bg-primary/10 border border-primary/20">
             <Sparkles className="h-6 w-6 text-primary animate-pulse" />
             <span className="text-sm font-semibold tracking-wide text-primary">POWERED BY AI</span>
@@ -177,6 +180,8 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+
+          
 
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 w-full max-w-6xl mt-16">
             {[
@@ -308,6 +313,19 @@ export default function HomePage() {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+          </div>
+
+          <div className="flex justify-center my-16">
+            <div className="relative w-full max-w-4xl h-64 rounded-2xl overflow-hidden shadow-2xl">
+              <Image
+                src="/friendly-customer-support-team-with-headsets-smili.jpg"
+                alt="Customer support team ready to help"
+                width={896}
+                height={256}
+                className="object-cover w-full h-full"
+                style={{ filter: "contrast(0.6)" }}
+              />
             </div>
           </div>
 

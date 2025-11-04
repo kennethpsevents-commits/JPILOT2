@@ -1,12 +1,18 @@
-import crypto from "crypto"
-
 const OWNER_PASSWORD = "Wearejobpilot_Psevents_in"
 
-function createSessionToken(): string {
+async function createSessionToken(): Promise<string> {
   const timestamp = Date.now().toString()
-  const random = crypto.randomBytes(32).toString("hex")
+  const randomBytes = crypto.getRandomValues(new Uint8Array(32))
+  const random = Array.from(randomBytes)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("")
   const secret = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "fallback-secret"
-  return crypto.createHash("sha256").update(`${OWNER_PASSWORD}-${timestamp}-${random}-${secret}`).digest("hex")
+
+  const encoder = new TextEncoder()
+  const data = encoder.encode(`${OWNER_PASSWORD}-${timestamp}-${random}-${secret}`)
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data)
+  const hashArray = Array.from(new Uint8Array(hashBuffer))
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("")
 }
 
 export async function verifyOwnerPassword(password: string): Promise<boolean> {
@@ -19,7 +25,7 @@ export async function verifyOwnerPassword(password: string): Promise<boolean> {
 
 export async function createOwnerSession(): Promise<string> {
   console.log("[v0] Creating owner session token...")
-  const sessionToken = createSessionToken()
+  const sessionToken = await createSessionToken()
   console.log("[v0] Session token created successfully")
   return sessionToken
 }
