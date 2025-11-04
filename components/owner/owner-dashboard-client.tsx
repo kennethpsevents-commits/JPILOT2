@@ -14,6 +14,7 @@ import {
   Database,
   Activity,
   FileText,
+  Shield,
 } from "lucide-react"
 import { ConversationMonitor } from "./conversation-monitor"
 import { ErrorManager } from "./error-manager"
@@ -45,6 +46,12 @@ export function OwnerDashboardClient() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <Button variant="outline" asChild>
+              <Link href="/owner/access-control">
+                <Shield className="w-4 h-4 mr-2" />
+                Access Control
+              </Link>
+            </Button>
             <Button variant="outline" asChild>
               <Link href="/owner/sops">
                 <FileText className="w-4 h-4 mr-2" />

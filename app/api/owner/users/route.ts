@@ -11,27 +11,30 @@ export async function GET() {
 
     const supabase = await createClient()
 
-    // Get all users with their stats
-    const { data: profiles, error } = await supabase
-      .from("profiles")
-      .select(
-        `
+    const { data: users, error } = await supabase
+      .from("users")
+      .select(`
         *,
-        applications(count),
-        chat_conversations(count)
-      `,
-      )
+        subscription:user_subscriptions(
+          status,
+          tier:subscription_tiers(name, slug)
+        )
+      `)
       .order("created_at", { ascending: false })
 
     if (error) throw error
 
-    const users = profiles?.map((profile: any) => ({
-      ...profile,
-      application_count: profile.applications?.[0]?.count || 0,
-      conversation_count: profile.chat_conversations?.[0]?.count || 0,
+    // Format response
+    const formattedUsers = users?.map((user: any) => ({
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      created_at: user.created_at,
+      subscription_status: user.subscription?.[0]?.status || "free",
+      tier_name: user.subscription?.[0]?.tier?.name || "Free",
     }))
 
-    return NextResponse.json({ users })
+    return NextResponse.json(formattedUsers || [])
   } catch (error) {
     console.error("[Owner Users Error]", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
