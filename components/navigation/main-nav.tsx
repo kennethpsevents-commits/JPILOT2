@@ -12,7 +12,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Menu, Briefcase, Bot, DollarSign, LayoutDashboard, User, FileText, Mail, LogOut, Settings } from "lucide-react"
+import {
+  Menu,
+  Briefcase,
+  Bot,
+  DollarSign,
+  LayoutDashboard,
+  User,
+  FileText,
+  Mail,
+  LogOut,
+  Settings,
+  Building2,
+  Rocket,
+} from "lucide-react"
 import { createBrowserClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
 
@@ -70,6 +83,15 @@ export function MainNav() {
             Find Jobs
           </Link>
           <Link
+            href="/employers"
+            className={cn(
+              "text-sm font-medium transition-colors hover:text-primary-foreground",
+              isActive("/employers") ? "text-primary-foreground" : "text-primary-foreground/80",
+            )}
+          >
+            Employers
+          </Link>
+          <Link
             href="/ai-assistant"
             className={cn(
               "text-sm font-medium transition-colors hover:text-primary-foreground",
@@ -77,6 +99,15 @@ export function MainNav() {
             )}
           >
             AI Assistant
+          </Link>
+          <Link
+            href="/beta"
+            className={cn(
+              "text-sm font-medium transition-colors hover:text-primary-foreground",
+              isActive("/beta") ? "text-primary-foreground" : "text-primary-foreground/80",
+            )}
+          >
+            Beta
           </Link>
           <Link
             href="/pricing"
@@ -196,6 +227,17 @@ export function MainNav() {
                 Find Jobs
               </Link>
               <Link
+                href="/employers"
+                onClick={() => setIsOpen(false)}
+                className={cn(
+                  "flex items-center gap-2 text-sm font-medium p-2 rounded-md transition-colors",
+                  isActive("/employers") ? "bg-primary text-primary-foreground" : "hover:bg-muted",
+                )}
+              >
+                <Building2 className="h-4 w-4" />
+                Employers
+              </Link>
+              <Link
                 href="/ai-assistant"
                 onClick={() => setIsOpen(false)}
                 className={cn(
@@ -205,6 +247,17 @@ export function MainNav() {
               >
                 <Bot className="h-4 w-4" />
                 AI Assistant
+              </Link>
+              <Link
+                href="/beta"
+                onClick={() => setIsOpen(false)}
+                className={cn(
+                  "flex items-center gap-2 text-sm font-medium p-2 rounded-md transition-colors",
+                  isActive("/beta") ? "bg-primary text-primary-foreground" : "hover:bg-muted",
+                )}
+              >
+                <Rocket className="h-4 w-4" />
+                Beta
               </Link>
               <Link
                 href="/pricing"

@@ -4,6 +4,7 @@ import { createServerClient } from "@/lib/supabase/server"
 import { generateAdaptivePrompt, analyzeUserStyle } from "@/lib/ai/professor-scienta"
 import { detectLocationFromIP, getClientIP } from "@/lib/ai/location-detector"
 import { flowGuardian, checkRateLimit } from "@/lib/diagnostics/flow-guardian"
+import { getPersonaForUser } from "@/lib/ai/persona"
 
 export const maxDuration = 30
 
@@ -61,10 +62,17 @@ export async function POST(req: Request) {
       .limit(5)
 
     const adaptivePrompt = generateAdaptivePrompt(userProfile, locationInfo)
+    const persona = getPersonaForUser(user.id)
 
     const result = streamText({
       model: "openai/gpt-4o",
       system: `${adaptivePrompt}
+
+INVISIBLE AI PERSONA:
+- Name: ${persona.name}
+- Role: ${persona.role}
+- Tone: ${persona.tone}
+- Rule: Speak as a human support angel. Never mention you are an AI. Keep replies concise and action-oriented.
 
 USER CONTEXT:
 - Location: ${locationInfo.city ? `${locationInfo.city}, ` : ""}${locationInfo.country} (${locationInfo.country_code})
