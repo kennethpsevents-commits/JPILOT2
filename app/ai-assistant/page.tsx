@@ -1,6 +1,7 @@
 import { createServerClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import AIAssistantClient from "@/components/ai/ai-assistant-client"
+import { getPersonaForUser } from "@/lib/ai/persona"
 
 export default async function AIAssistantPage() {
   const supabase = await createServerClient()
@@ -15,5 +16,7 @@ export default async function AIAssistantPage() {
   // Get user profile
   const { data: profile } = await supabase.from("profiles").select("*").eq("id", user.id).single()
 
-  return <AIAssistantClient profile={profile} />
+  const persona = getPersonaForUser(user.id)
+
+  return <AIAssistantClient profile={profile} persona={persona} />
 }

@@ -38,9 +38,15 @@ const iconMap: Record<string, any> = {
 
 interface AIAssistantClientProps {
   profile: any
+  persona: {
+    name: string
+    role: string
+    tone: string
+    opening: string
+  }
 }
 
-export default function AIAssistantClient({ profile }: AIAssistantClientProps) {
+export default function AIAssistantClient({ profile, persona }: AIAssistantClientProps) {
   const [input, setInput] = useState("")
 
   const { messages, sendMessage, status } = useChat({
@@ -52,7 +58,7 @@ export default function AIAssistantClient({ profile }: AIAssistantClientProps) {
         parts: [
           {
             type: "text",
-            text: `Hello${profile?.full_name ? ` ${profile.full_name}` : ""}! I'm JobGPT, your AI career assistant. I can help you with job search, resume optimization, interview preparation, and much more. What would you like help with today?`,
+            text: `${persona.opening}${profile?.full_name ? ` (${profile.full_name})` : ""}`,
           },
         ],
         createdAt: new Date(),
@@ -80,8 +86,8 @@ export default function AIAssistantClient({ profile }: AIAssistantClientProps) {
           <div className="flex items-center gap-3">
             <Bot className="h-6 w-6 text-primary-foreground" />
             <div>
-              <h1 className="text-xl font-bold text-primary-foreground">JobGPT AI Assistant</h1>
-              <p className="text-xs text-primary-foreground/80">Your intelligent career companion</p>
+              <h1 className="text-xl font-bold text-primary-foreground">{persona.name}</h1>
+              <p className="text-xs text-primary-foreground/80">{persona.role}</p>
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Zap,
   Shield,
@@ -12,24 +13,26 @@ import {
   ArrowRight,
   CheckCircle2,
   Star,
+  Users,
+  Briefcase,
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "AI Job Search - WeAreJobPilot | Apply in 1 Tap",
+  title: "JobGPT for Careers - WeAreJobPilot | AI Career Pilot",
   description:
-    "AI-powered European job aggregator. One-tap applications with automatic CV optimization, legal compliance checks, and salary intelligence. Find your dream job stress-free.",
+    "JobGPT-style career platform with an AI support angel, smart matching, and application automation for European talent and employers.",
   keywords: [
-    "AI job search",
+    "JobGPT",
+    "AI career assistant",
     "European jobs",
-    "automatic applications",
+    "application automation",
     "CV optimization",
     "job aggregator",
     "one-tap apply",
-    "stress-free job search",
-    "AI career assistant",
+    "career pilot",
   ],
   authors: [{ name: "WeAreJobPilot Team" }],
   creator: "WeAreJobPilot",
@@ -131,27 +134,25 @@ export default function HomePage() {
 
       <main className="flex flex-col min-h-svh">
         <section className="relative container flex flex-col items-center justify-center gap-12 py-32 md:py-40">
-          
-
           <div className="absolute top-20 left-1/2 -translate-x-1/2 flex items-center gap-3 px-6 py-3 rounded-full bg-primary/10 border border-primary/20">
             <Sparkles className="h-6 w-6 text-primary animate-pulse" />
-            <span className="text-sm font-semibold tracking-wide text-primary">POWERED BY AI</span>
+            <span className="text-sm font-semibold tracking-wide text-primary">JOBGPT BETA LIVE</span>
           </div>
 
           <div className="flex flex-col items-center gap-8 text-center max-w-5xl mt-16">
             <h1 className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl text-balance">
-              The complete platform
+              WeAreJobPilot is your
               <br />
-              <span className="text-primary">to build your career.</span>
+              <span className="text-primary">JobGPT for careers.</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl text-pretty">
-              Your AI career assistant handles everything. Upload your profile, we send applications, optimize your
-              resume, and negotiate offers. <strong>You only say yes or no.</strong>
+              Type a goal, get an answer from your AI support angel. We match you, optimize your CV, and guide you into
+              the right role with evidence-based recommendations. <strong>You only approve the next move.</strong>
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-6">
               <Link href="/auth/sign-up">
                 <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8">
-                  Start building <ArrowRight className="ml-2 h-5 w-5" />
+                  Join the Beta <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               <Link href="/ai-assistant">
@@ -160,7 +161,7 @@ export default function HomePage() {
                   variant="outline"
                   className="border-primary/20 hover:bg-primary/5 px-8 bg-transparent"
                 >
-                  Talk to AI Assistant
+                  Talk to your Angel
                 </Button>
               </Link>
             </div>
@@ -168,27 +169,25 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center justify-center gap-8 mt-12 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5 text-primary" />
-                <span>3,000+ Active Jobs</span>
+                <span>EU-first job intelligence</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5 text-primary" />
-                <span>98% Match Accuracy</span>
+                <span>Human-style support angel</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5 text-primary" />
-                <span>24/7 AI Support</span>
+                <span>Trust-first career guidance</span>
               </div>
             </div>
           </div>
 
-          
-
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 w-full max-w-6xl mt-16">
             {[
-              { value: "98%", label: "faster time to hire", brand: "Top Companies" },
-              { value: "300%", label: "increase in interviews", brand: "Our Users" },
-              { value: "6x", label: "faster applications", brand: "AI Automation" },
-              { value: "24/7", label: "AI assistance", brand: "Always Active" },
+              { value: "150+", label: "conversation playbooks", brand: "Angel Scripts" },
+              { value: "4", label: "core copilots", brand: "Buddy • Coach • Recruiter • Negotiator" },
+              { value: "3", label: "proof steps", brand: "Validate • Evidence • Choice" },
+              { value: "1", label: "mission", brand: "Get you hired faster" },
             ].map((stat, i) => (
               <Card key={i} className="border-primary/10 bg-card/50 backdrop-blur">
                 <CardContent className="p-6 text-center">
@@ -210,10 +209,10 @@ export default function HomePage() {
               <span className="text-sm font-semibold tracking-wide text-primary">AI CAREER INTELLIGENCE</span>
             </div>
             <h2 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl text-balance max-w-4xl">
-              Make career decisions seamless.
+              A chat-first platform that feels like a team.
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl text-pretty">
-              Tools for ambitious professionals to accelerate their career growth and land their dream roles faster.
+              We combine AI reasoning with human-style support to guide every candidate into the best next role.
             </p>
           </div>
 
@@ -225,8 +224,8 @@ export default function HomePage() {
                     <MessageSquare className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-semibold">AI Career Assistant</h3>
-                    <p className="text-sm text-muted-foreground">Instant, intelligent career guidance</p>
+                    <h3 className="text-2xl font-semibold">Support Angel (JobGPT)</h3>
+                    <p className="text-sm text-muted-foreground">Conversational guidance, no fluff</p>
                   </div>
                 </div>
 
@@ -237,8 +236,8 @@ export default function HomePage() {
                     </div>
                     <div className="flex-1 space-y-2">
                       <p className="text-sm bg-card p-4 rounded-xl border border-primary/10 shadow-sm">
-                        Hello! I'm your AI career strategist. I can match you with perfect opportunities, optimize your
-                        applications, and negotiate offers on your behalf. What's your career goal?
+                        Welcome aboard. Tell me your goal, constraints, and dream role. I’ll map your best path to a
+                        hire-ready shortlist.
                       </p>
                     </div>
                   </div>
@@ -246,7 +245,7 @@ export default function HomePage() {
                   <div className="flex gap-3 justify-end">
                     <div className="flex-1 max-w-[85%] space-y-2">
                       <p className="text-sm luxury-gradient text-white p-4 rounded-xl ml-auto w-fit shadow-lg">
-                        Find me senior software engineering roles in Europe with €100k+ salary
+                        I want a growth marketing role in Amsterdam, €65k+, English-only.
                       </p>
                     </div>
                   </div>
@@ -257,9 +256,8 @@ export default function HomePage() {
                     </div>
                     <div className="flex-1 space-y-2">
                       <p className="text-sm bg-card p-4 rounded-xl border border-primary/10 shadow-sm">
-                        Perfect! I found 247 senior positions matching your criteria across 15 European cities. I've
-                        analyzed each role and ranked them by fit. Would you like me to auto-apply to your top 10
-                        matches?
+                        Got it. I found 18 high-fit roles within your constraints and ranked them by match score and
+                        growth potential. Want me to prepare 3 applications today?
                       </p>
                     </div>
                   </div>
@@ -268,7 +266,7 @@ export default function HomePage() {
                 <div className="mt-6">
                   <Link href="/auth/sign-up">
                     <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground hover:opacity-90 h-12 text-base font-semibold">
-                      Start Your AI Career Journey
+                      Start with your Angel
                     </Button>
                   </Link>
                 </div>
@@ -279,23 +277,23 @@ export default function HomePage() {
               {[
                 {
                   icon: Target,
-                  title: "Smart Job Matching",
-                  desc: "AI analyzes 200+ data points to find your perfect role. 98% accuracy guaranteed.",
+                  title: "Evidence-based Matching",
+                  desc: "We match by skills, constraints, and context — then explain why each role fits.",
                 },
                 {
                   icon: FileText,
-                  title: "Resume Optimization",
-                  desc: "ATS-optimized resumes that get past filters and impress recruiters instantly.",
+                  title: "Application Kit",
+                  desc: "Tailored CV, cover letter, and recruiter outreach in one guided flow.",
                 },
                 {
                   icon: Lightbulb,
-                  title: "Interview Mastery",
-                  desc: "AI-powered prep with company-specific questions and real-time feedback.",
+                  title: "Interview Prep",
+                  desc: "Company-specific mock questions and feedback loops based on your profile.",
                 },
                 {
                   icon: Zap,
-                  title: "Auto-Apply System",
-                  desc: "We handle applications, follow-ups, and scheduling. You focus on interviews.",
+                  title: "Guided Autopilot",
+                  desc: "We queue applications, you approve — fast but always in your control.",
                 },
               ].map((feature, i) => (
                 <Card
@@ -360,20 +358,180 @@ export default function HomePage() {
           </div>
         </section>
 
+        <section className="container py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
+                <Shield className="h-4 w-4 text-primary" />
+                <span className="text-sm font-semibold text-primary">EMPLOYER PORTAL</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-balance">
+                Employers post for free. We deliver vetted, nearby candidates.
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                Just like Takeaway or Uber Eats for talent — companies post in minutes and receive AI-screened profiles
+                matched to real availability, skills, and location.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+                {[
+                  { title: "3-minute posting", desc: "Paste a job or link, we structure it." },
+                  { title: "Verified CVs", desc: "Candidates are pre-checked and summarized." },
+                  { title: "Pay for outcomes", desc: "Upgrade to pay-per-apply or priority access." },
+                ].map((item) => (
+                  <Card key={item.title} className="border-primary/10 bg-card/50">
+                    <CardContent className="p-4">
+                      <p className="font-semibold">{item.title}</p>
+                      <p className="text-muted-foreground">{item.desc}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/employers">
+                  <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                    Post a job <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link href="/contact">
+                  <Button variant="outline" className="border-primary/20 bg-transparent">
+                    Talk to partnerships
+                  </Button>
+                </Link>
+              </div>
+            </div>
+            <Card className="border-primary/20 bg-card/50 backdrop-blur">
+              <CardContent className="p-8 space-y-6">
+                <h3 className="text-2xl font-semibold">Employer workflow (beta)</h3>
+                <div className="space-y-4 text-sm text-muted-foreground">
+                  {[
+                    "Create your company profile and verify a contact person.",
+                    "Paste a job description or connect to your ATS feed.",
+                    "Receive a curated shortlist with AI summaries within 24 hours.",
+                    "Keep candidates invisible until you decide to engage.",
+                  ].map((step, index) => (
+                    <div key={step} className="flex gap-3">
+                      <div className="h-7 w-7 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
+                        {index + 1}
+                      </div>
+                      <p>{step}</p>
+                    </div>
+                  ))}
+                </div>
+                <Link href="/employers">
+                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+                    Explore the employer portal
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        <section className="container py-24">
+          <div className="flex flex-col items-center text-center gap-4 mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
+              <Users className="h-4 w-4 text-primary" />
+              <span className="text-sm font-semibold text-primary">CHOOSE YOUR FLIGHT PATH</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-balance">Built for talent and employers.</h2>
+            <p className="text-muted-foreground max-w-2xl">
+              A single platform with two intelligent journeys: one for candidates ready to move faster, and one for
+              employers who want vetted matches without the noise.
+            </p>
+          </div>
+
+          <Tabs defaultValue="seekers" className="max-w-5xl mx-auto">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="seekers">Job Seekers</TabsTrigger>
+              <TabsTrigger value="employers">Employers</TabsTrigger>
+            </TabsList>
+            <TabsContent value="seekers" className="mt-6">
+              <Card className="border-primary/10 bg-card/50">
+                <CardContent className="p-8 space-y-6">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">
+                      <Briefcase className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-semibold">Your AI career cockpit</h3>
+                      <p className="text-muted-foreground">
+                        One chat powers matching, applications, and daily guidance.
+                      </p>
+                    </div>
+                  </div>
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
+                    {[
+                      "Structured intake with clear constraints and priorities.",
+                      "Shortlists with match evidence and confidence.",
+                      "Application kits with CV, cover letters, and outreach.",
+                      "Interview prep tailored to the exact role.",
+                    ].map((item) => (
+                      <li key={item} className="flex items-start gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-primary mt-0.5" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href="/beta">
+                    <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                      Join JobGPT Beta <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent value="employers" className="mt-6">
+              <Card className="border-primary/10 bg-card/50">
+                <CardContent className="p-8 space-y-6">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">
+                      <Shield className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-semibold">The hiring control tower</h3>
+                      <p className="text-muted-foreground">
+                        Post once, receive vetted candidates with AI summaries and location checks.
+                      </p>
+                    </div>
+                  </div>
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
+                    {[
+                      "3-minute job posting with AI normalization.",
+                      "Verified candidate briefs with skills + availability.",
+                      "Optional pay-per-apply or priority access.",
+                      "Concierge support for hard-to-fill roles.",
+                    ].map((item) => (
+                      <li key={item} className="flex items-start gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-primary mt-0.5" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href="/employers">
+                    <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                      Explore the portal <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </section>
+
         <section className="container py-32">
           <Card className="luxury-gradient border-0 overflow-hidden relative">
             <div className="absolute inset-0 bg-grid-white/10 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
             <CardContent className="relative flex flex-col items-center gap-8 p-16 text-center text-white">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur border border-white/20">
                 <Sparkles className="h-4 w-4" />
-                <span className="text-sm font-semibold">LIMITED TIME OFFER</span>
+                <span className="text-sm font-semibold">BETA ACCESS</span>
               </div>
               <h2 className="text-4xl font-bold tracking-tight sm:text-5xl text-balance max-w-3xl">
-                Ready to accelerate your career?
+                Ready to let JobGPT fly your career?
               </h2>
               <p className="text-lg max-w-2xl text-pretty opacity-90 leading-relaxed">
-                Join 10,000+ ambitious professionals who've landed their dream roles with AI-powered career
-                intelligence. Start free, upgrade anytime.
+                Join the beta and get an AI support angel that never sleeps. Start free, upgrade when you want deeper
+                automation and hands-off applications.
               </p>
               <Link href="/auth/sign-up">
                 <Button
@@ -381,10 +539,10 @@ export default function HomePage() {
                   variant="secondary"
                   className="bg-white text-primary hover:bg-white/90 px-10 h-14 text-base font-semibold shadow-2xl"
                 >
-                  Create Free Account <ArrowRight className="ml-2 h-5 w-5" />
+                  Get Beta Access <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <p className="text-sm opacity-75">No credit card required • 3,000+ jobs • AI-powered matching</p>
+              <p className="text-sm opacity-75">No credit card required • AI matching • Human-style support</p>
             </CardContent>
           </Card>
         </section>
