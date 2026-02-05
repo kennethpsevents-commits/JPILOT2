@@ -66,12 +66,12 @@ export default async function JobsPage() {
     userSubscription = profile?.subscription_tier || "free"
   }
 
-  // Fetch initial jobs (first 20)
+  // Fetch initial jobs (first 20) - using canonical field names
   const { data: jobs } = await supabase
     .from("jobs")
     .select("*")
-    .eq("status", "active")
-    .order("posted_date", { ascending: false })
+    .eq("is_active", true)
+    .order("posted_at", { ascending: false })
     .range(0, 19)
 
   return (

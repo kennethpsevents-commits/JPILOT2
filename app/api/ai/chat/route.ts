@@ -1,11 +1,42 @@
 import { convertToModelMessages, streamText, tool, type UIMessage } from "ai"
 import { z } from "zod"
 import { createServerClient } from "@/lib/supabase/server"
-import { generateAdaptivePrompt, analyzeUserStyle } from "@/lib/ai/professor-scienta"
 import { detectLocationFromIP, getClientIP } from "@/lib/ai/location-detector"
 import { flowGuardian, checkRateLimit } from "@/lib/diagnostics/flow-guardian"
+import { buildContextPack, getContextSummary } from "@/lib/ai/context-pack"
+import {
+  JOBGPT_SYSTEM_PROMPT,
+  serializeContextForPrompt,
+  validateRequiredFields,
+  formatMissingDataResponse,
+  type JobGPTActionType,
+} from "@/lib/ai/jobgpt-system"
+import { logAction, createPromptHash } from "@/lib/db/jobgpt"
 
 export const maxDuration = 30
+
+// ============================================================================
+// REQUEST TYPES
+// ============================================================================
+
+interface ChatRequest {
+  messages: UIMessage[]
+  conversationId?: string
+  jobId?: string
+  actionType?: JobGPTActionType
+}
+
+// ============================================================================
+// RESPONSE CONTRACT
+// ============================================================================
+
+interface JobGPTResponse {
+  reply: string
+  contextUsed: string[]
+  missingData: string[]
+  nextActions: string[]
+  needsUserInput?: boolean
+}
 
 export async function POST(req: Request) {
   try {

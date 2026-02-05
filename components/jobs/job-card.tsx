@@ -65,9 +65,11 @@ export function JobCard({
   }
 
   const formatPostedDate = () => {
-    if (!job.posted_date) return "2 days ago"
+    // Use canonical field name: posted_at
+    const postedAt = (job as any).posted_at || (job as any).posted_date
+    if (!postedAt) return "2 days ago"
     try {
-      const daysAgo = Math.floor((Date.now() - new Date(job.posted_date).getTime()) / (1000 * 60 * 60 * 24))
+      const daysAgo = Math.floor((Date.now() - new Date(postedAt).getTime()) / (1000 * 60 * 60 * 24))
       if (daysAgo === 0) return "Today"
       if (daysAgo === 1) return "Yesterday"
       if (daysAgo < 7) return `${daysAgo} days ago`
@@ -93,10 +95,16 @@ export function JobCard({
   }
 
   const getWorkTypeIcon = () => {
-    const type = job.type?.toLowerCase() || ""
+    // Use canonical field name: employment_type
+    const type = ((job as any).employment_type || (job as any).type || "").toLowerCase()
     if (type.includes("remote")) return <Home className="h-3 w-3" />
     if (type.includes("hybrid")) return <Briefcase className="h-3 w-3" />
     return <Briefcase className="h-3 w-3" />
+  }
+
+  // Get employment type display
+  const getEmploymentType = () => {
+    return (job as any).employment_type || (job as any).type || "Full-time"
   }
 
   return (
@@ -188,7 +196,7 @@ export function JobCard({
         <div className="flex flex-wrap gap-2">
           <Badge variant="secondary" className="rounded-full px-3 py-1 text-xs font-medium">
             <span className="mr-1.5">{getWorkTypeIcon()}</span>
-            {job.type}
+            {getEmploymentType()}
           </Badge>
 
           {job.experience_level && (
