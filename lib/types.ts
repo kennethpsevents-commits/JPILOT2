@@ -11,29 +11,31 @@ export interface Profile {
   updated_at: string
 }
 
-export interface Job {
-  id: string
-  title: string
-  company: string
-  company_logo: string | null
-  location: string
-  type: string // Changed from employment_type to match DB
-  salary_min: number | null
-  salary_max: number | null
-  salary_currency?: string
-  description: string
-  requirements: string[] | string // Can be array or JSON string from DB
-  benefits: string[] | string // Can be array or JSON string from DB
-  category?: string
-  experience_level?: string
-  requires_screening?: boolean
-  status: string // Changed from is_active to match DB
-  posted_date: string // Changed from posted_at to match DB
-  deadline: string | null // Changed from expires_at to match DB
-  created_at?: string
-  updated_at?: string
-  embedding?: any
-}
+// ============================================================================
+// JOB TYPES - Re-exported from canonical source
+// ============================================================================
+// IMPORTANT: Use these canonical types. Field names match database exactly:
+// - posted_at (NOT posted_date)
+// - expires_at (NOT deadline)
+// - is_active (NOT status)
+// - employment_type (NOT type)
+// ============================================================================
+export type {
+  Job,
+  JobRow,
+  JobSearchFilters,
+  JobPaginationOptions,
+  JobListResponse,
+  JobCreateInput,
+  JobUpdateInput,
+  LocationType,
+  EmploymentType,
+  ExperienceLevel,
+  JobCategory,
+  LegacyJob,
+} from './types/job'
+
+export { parseJobRow, convertLegacyJob } from './types/job'
 
 export interface Application {
   id: string
@@ -48,6 +50,9 @@ export interface Application {
   updated_at: string
 }
 
+/**
+ * @deprecated Use JobSearchFilters from './types/job' instead
+ */
 export interface SearchFilters {
   query?: string
   location?: string
@@ -57,6 +62,7 @@ export interface SearchFilters {
   experience_level?: string[]
   salary_min?: number
   requires_screening?: boolean
+  is_active?: boolean
 }
 
 export interface ChatConversation {
