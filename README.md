@@ -4,6 +4,12 @@ A world-class job aggregator platform with AI-powered job matching, resume optim
 
 ## 🚀 Quick Start
 
+## 🧱 Product Architecture Skeleton
+
+For the lean, modular website and platform blueprint (routes, services, data model, phases, and year-1 guardrails), see:
+
+- `docs/WEBSITE_ARCHITECTURE_SKELETON.md`
+
 ### Prerequisites
 - Node.js 18+ 
 - Supabase account
