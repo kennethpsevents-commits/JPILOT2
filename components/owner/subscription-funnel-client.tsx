@@ -39,7 +39,7 @@ export default function SubscriptionFunnelClient() {
         setLastUpdated(new Date())
       }
     } catch (error) {
-      console.error("[v0] Error fetching metrics:", error)
+      console.error("Error fetching metrics:", error)
     } finally {
       setLoading(false)
     }

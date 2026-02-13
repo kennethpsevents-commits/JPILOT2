@@ -79,7 +79,7 @@ export function ApplyClient({ job, userProfile }: ApplyClientProps) {
         router.push(`/applications/${application.id}?success=true`)
       }
     } catch (error) {
-      console.error("[v0] Error submitting application:", error)
+      console.error("Error submitting application:", error)
       alert("Failed to submit application. Please try again.")
     } finally {
       setIsLoading(false)

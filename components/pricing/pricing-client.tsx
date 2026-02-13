@@ -113,7 +113,7 @@ export function PricingClient({ currentTier, isAuthenticated }: PricingClientPro
         throw new Error("Failed to create checkout session")
       }
     } catch (error) {
-      console.error("[v0] Error creating checkout:", error)
+      console.error("Error creating checkout:", error)
       alert("Failed to process subscription. Please try again.")
       setIsLoading(null)
     }

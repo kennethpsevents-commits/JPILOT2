@@ -18,7 +18,7 @@ export async function GET() {
       timestamp: new Date().toISOString(),
     })
   } catch (error) {
-    console.error("[v0] Error fetching subscription metrics:", error)
+    console.error("Error fetching subscription metrics:", error)
     return NextResponse.json(
       {
         success: false,

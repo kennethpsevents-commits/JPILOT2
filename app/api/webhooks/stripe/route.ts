@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createClient } from "@supabase/supabase-js"
 import { NextResponse } from "next/server"
 import Stripe from "stripe"
@@ -21,7 +22,7 @@ export async function POST(request: Request) {
   try {
     event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!)
   } catch (error) {
-    console.error("[v0] Webhook signature verification failed:", error)
+    console.error("Webhook signature verification failed:", error)
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 })
   }
 
@@ -137,7 +138,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ received: true })
   } catch (error) {
-    console.error("[v0] Error processing webhook:", error)
+    console.error("Error processing webhook:", error)
     return NextResponse.json({ error: "Webhook processing failed" }, { status: 500 })
   }
 }

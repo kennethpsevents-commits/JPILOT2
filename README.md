@@ -41,7 +41,7 @@ npm run dev
 
 1. **Via Navigation**: Click "Owner" in the top navigation bar
 2. **Direct URL**: Navigate to `/owner/login`
-3. **Password**: `Wearejobpilot_Psevents_in`
+3. **Password**: `<set via OWNER_PASSWORD env var>`
 
 ### Owner Dashboard Features:
 - **Main Dashboard** (`/owner/dashboard`): System overview, user stats, error logs
@@ -221,7 +221,7 @@ Access SOPs at `/owner/sops` after logging into the owner dashboard.
 3. Check RLS policies are enabled
 
 ### Owner Dashboard Not Accessible:
-1. Verify password: `Wearejobpilot_Psevents_in`
+1. Verify password: `<set via OWNER_PASSWORD env var>`
 2. Check cookies are enabled
 3. Try clearing browser cache
 

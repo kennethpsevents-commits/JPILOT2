@@ -7,7 +7,7 @@ The JobPilot access control system gives you complete control over who can acces
 
 1. **Access the Control Panel**
    - Login to owner dashboard at `/owner/login`
-   - Password: `Wearejobpilot_Psevents_in`
+   - Password: `<set via OWNER_PASSWORD env var>`
    - Click "Access Control" in the header
 
 2. **Run Database Setup**

@@ -25,7 +25,7 @@ export async function detectLocationFromIP(ip: string): Promise<LocationInfo> {
       timezone: data.timezone || "America/New_York",
     }
   } catch (error) {
-    console.error("[v0] Location detection error:", error)
+    console.error("Location detection error:", error)
     // Default to US if detection fails
     return {
       country: "United States",

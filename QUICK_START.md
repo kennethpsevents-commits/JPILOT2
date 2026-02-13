@@ -30,7 +30,7 @@ Wait 2-3 minutes for all jobs to be created.
 
 ### Step 3: Access Owner Dashboard
 1. Go to: `https://your-domain.com/owner/login`
-2. Password: `Wearejobpilot_Psevents_in`
+2. Password: `<set via OWNER_PASSWORD env var>`
 3. Explore all features!
 
 ---

@@ -34,7 +34,7 @@
 
 ### **Access Owner Dashboard**
 1. Navigate to: `/owner/login`
-2. Enter password: `Wearejobpilot_Psevents_in`
+2. Enter password: `<set via OWNER_PASSWORD env var>`
 3. Access features:
    - **Dashboard**: Overview of system health, users, applications
    - **Conversations**: Monitor all AI chat conversations
@@ -237,7 +237,7 @@ jobpilot/
 
 3. **Test Owner Dashboard**:
    - Go to `/owner/login`
-   - Use password: `Wearejobpilot_Psevents_in`
+   - Use password: `<set via OWNER_PASSWORD env var>`
 
 4. **Configure Email** (if needed):
    - Add SMTP credentials to environment variables

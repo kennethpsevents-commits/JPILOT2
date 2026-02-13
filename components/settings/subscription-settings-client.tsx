@@ -58,7 +58,7 @@ export function SubscriptionSettingsClient({ profile, subscription }: Subscripti
         throw new Error("Failed to cancel subscription")
       }
     } catch (error) {
-      console.error("[v0] Error canceling subscription:", error)
+      console.error("Error canceling subscription:", error)
       alert("Failed to cancel subscription. Please try again or contact support.")
     } finally {
       setIsCanceling(false)
