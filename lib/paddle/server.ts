@@ -1,5 +1,5 @@
 // Paddle Server-side API client
-const PADDLE_API_KEY = process.env.PADDLE_API_KEY || "apikey_01k483wa89jeqjdf6b84bqzq9a"
+const PADDLE_API_KEY = process.env.PADDLE_API_KEY
 const PADDLE_API_URL =
   process.env.NODE_ENV === "production" ? "https://api.paddle.com" : "https://sandbox-api.paddle.com"
 
@@ -35,6 +35,10 @@ export class PaddleClient {
   private apiUrl: string
 
   constructor() {
+    if (!PADDLE_API_KEY) {
+      throw new Error("PADDLE_API_KEY is not configured")
+    }
+
     this.apiKey = PADDLE_API_KEY
     this.apiUrl = PADDLE_API_URL
   }

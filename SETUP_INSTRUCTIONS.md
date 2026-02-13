@@ -71,7 +71,7 @@ After setup is complete:
 1. Visit `/jobs` to see all 3000 jobs with infinite scroll
 2. Use the search bar to filter by keywords, location, category
 3. Test the subscription-based access (Free: 10 jobs, Pro: 200 jobs, Enterprise: unlimited)
-4. Access owner dashboard at `/owner/login` (password: `Wearejobpilot_Psevents_in`)
+4. Access owner dashboard at `/owner/login` (password: `<set via OWNER_PASSWORD env var>`)
 
 ---
 

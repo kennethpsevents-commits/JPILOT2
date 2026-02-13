@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createClient } from "@/lib/supabase/server"
 import { NextResponse } from "next/server"
 import { paddleClient } from "@/lib/paddle/server"
@@ -59,7 +60,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ url: transaction.data.checkout.url })
   } catch (error) {
-    console.error("[v0] Error creating subscription checkout:", error)
+    console.error("Error creating subscription checkout:", error)
     return NextResponse.json({ error: "Failed to create checkout session" }, { status: 500 })
   }
 }

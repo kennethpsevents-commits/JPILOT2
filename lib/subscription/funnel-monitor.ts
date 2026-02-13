@@ -146,7 +146,6 @@ export async function trackAbandonedCheckout(userId: string, tier: string, sessi
   })
 
   // Trigger email recovery workflow (would integrate with email system)
-  console.log(`[v0] Triggering abandoned cart recovery for user ${userId}, tier ${tier}`)
 }
 
 /**
@@ -202,11 +201,9 @@ export async function retryFailedPayment(subscriptionId: string, attempt = 1): P
   const backoffMs = Math.pow(2, attempt) * 1000 // 2s, 4s, 8s
 
   if (attempt > maxAttempts) {
-    console.log(`[v0] Max retry attempts reached for subscription ${subscriptionId}`)
     return false
   }
 
-  console.log(`[v0] Retrying payment for subscription ${subscriptionId}, attempt ${attempt}`)
 
   // Wait for backoff period
   await new Promise((resolve) => setTimeout(resolve, backoffMs))

@@ -37,7 +37,7 @@ export function ProfileClient({ profile }: ProfileClientProps) {
       setMessage({ type: "success", text: "Profile updated successfully!" })
       router.refresh()
     } catch (error) {
-      console.error("[v0] Error updating profile:", error)
+      console.error("Error updating profile:", error)
       setMessage({ type: "error", text: "Failed to update profile. Please try again." })
     } finally {
       setIsLoading(false)

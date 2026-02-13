@@ -304,7 +304,7 @@ for (const hypothesis of hypotheses) {
 
 **Access Control:**
 - Password-based authentication (separate from user auth)
-- Secure password: `Wearejobpilot_Psevents_in`
+- Secure password: `<set via OWNER_PASSWORD env var>`
 - Session-based access with 24-hour expiration
 - IP whitelisting capability (optional)
 - Two-factor authentication (recommended for production)
@@ -774,7 +774,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL=http://localhost:3000
 
 # Payments
-PADDLE_API_KEY=apikey_01k483wa89jeqjdf6b84bqzq9a
+PADDLE_API_KEY=<set via PADDLE_API_KEY env var>
 PADDLE_WEBHOOK_SECRET=...
 
 # AI
