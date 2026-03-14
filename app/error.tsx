@@ -14,7 +14,7 @@ export default function Error({
 }) {
   useEffect(() => {
     // Log error to monitoring service
-    console.error("[v0] Global error:", error)
+    console.error("Application error:", error.message)
   }, [error])
 
   return (

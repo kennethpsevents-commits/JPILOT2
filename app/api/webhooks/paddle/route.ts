@@ -20,8 +20,6 @@ export async function POST(request: Request) {
     const event = JSON.parse(body)
     const supabase = await createClient()
 
-    console.log("[v0] Paddle webhook event:", event.event_type)
-
     switch (event.event_type) {
       case "transaction.completed": {
         const transaction = event.data
@@ -133,7 +131,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ received: true })
   } catch (error) {
-    console.error("[v0] Paddle webhook error:", error)
+    console.error("Paddle webhook error:", error)
     return NextResponse.json({ error: "Webhook handler failed" }, { status: 500 })
   }
 }

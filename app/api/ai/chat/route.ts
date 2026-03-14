@@ -41,8 +41,6 @@ export async function POST(req: Request) {
 
     const guardianResult = await flowGuardian(aiContext, lastMessage)
 
-    console.log("[v0] Flow Guardian metrics:", guardianResult.metrics)
-
     if (guardianResult.handover) {
       return Response.json({
         message: guardianResult.message,
@@ -124,7 +122,6 @@ Always consider the user's location when suggesting jobs or providing market ins
             const { data: jobs, error } = await dbQuery
 
             if (error) {
-              console.error("[v0] Job search error:", error)
               return { jobs: [], count: 0, error: "Failed to search jobs" }
             }
 
@@ -420,10 +417,8 @@ ${profile?.full_name || "Your Name"}`,
 
     return result.toUIMessageStreamResponse()
   } catch (error) {
-    console.error("[v0] AI chat error:", error)
-
     const errorId = `err_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-    console.error(`[v0] Error ID: ${errorId}`, error)
+    console.error("AI chat error:", errorId, error instanceof Error ? error.message : error)
 
     return Response.json(
       {

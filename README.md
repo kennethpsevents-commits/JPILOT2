@@ -35,13 +35,13 @@ npm run seed-jobs
 npm run dev
 \`\`\`
 
-## 🔐 Owner Dashboard Access
+## Owner Dashboard Access
 
 ### How to Access:
 
 1. **Via Navigation**: Click "Owner" in the top navigation bar
 2. **Direct URL**: Navigate to `/owner/login`
-3. **Password**: `Wearejobpilot_Psevents_in`
+3. **Password**: Set via `OWNER_PASSWORD` environment variable
 
 ### Owner Dashboard Features:
 - **Main Dashboard** (`/owner/dashboard`): System overview, user stats, error logs
@@ -200,7 +200,10 @@ OPENAI_API_KEY=
 
 # Base URL
 NEXT_PUBLIC_BASE_URL=https://your-domain.com
-\`\`\`
+
+# Owner Dashboard
+OWNER_PASSWORD=your-secure-owner-password
+```
 
 ## 📝 Standard Operating Procedures (SOPs)
 
@@ -221,7 +224,7 @@ Access SOPs at `/owner/sops` after logging into the owner dashboard.
 3. Check RLS policies are enabled
 
 ### Owner Dashboard Not Accessible:
-1. Verify password: `Wearejobpilot_Psevents_in`
+1. Verify `OWNER_PASSWORD` environment variable is set
 2. Check cookies are enabled
 3. Try clearing browser cache
 

@@ -25,7 +25,7 @@ async function sendWithRetry(transporter: any, mailOptions: any, maxRetries = 3)
       const info = await transporter.sendMail(mailOptions)
       return { success: true, info }
     } catch (error: any) {
-      console.error(`[v0] Email send attempt ${attempt} failed:`, error)
+      console.error(`Email send attempt ${attempt} failed:`, error.message)
 
       if (attempt === maxRetries) {
         return { success: false, error: error.message }
@@ -138,7 +138,7 @@ export async function POST(request: NextRequest) {
       )
     }
   } catch (error: any) {
-    console.error("[v0] Email send error:", error)
+    console.error("Email send error:", error.message)
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
